@@ -10,61 +10,20 @@
     position: fixed;
     width: 260px;
     height: 110px;
-
-    opacity: 0.14;              /* lightly visible */
+    opacity: 0.14;
     pointer-events: none;
     z-index: 0;
-
-    /* ✈️ corrected overall flight silhouette */
-   clip-path: polygon(
-    5% 50%, 15% 35%, 40% 30%, 
-    70% 20%, 95% 50%, 
-    70% 80%, 40% 70%, 15% 65%
-);	
-
+    clip-path: polygon(
+     5% 50%, 15% 35%, 40% 30%, 
+     70% 20%, 95% 50%, 
+     70% 80%, 40% 70%, 15% 65%
+ );
     transition: transform 5s linear, top 5s linear, left 5s linear;
 }
-
-/* logo pieces — NO background */
-.logo {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-/* Blue wing */
-.blue {
-    position: absolute;
-    width: 55%;
-    height: 100%;
-    background: #0a4fd6;
-    clip-path: polygon(0 10%, 85% 0, 45% 100%, 0 90%);
-}
-
-/* White lightning */
-.white {
-    position: absolute;
-    width: 70%;
-    height: 100%;
-    left: 30%;
-    background: white;
-    clip-path: polygon(
-        20% 0, 60% 0, 40% 50%,
-        60% 100%, 20% 100%, 40% 50%
-    );
-}
-
-/* Dark rear wing */
-.dark {
-    position: absolute;
-    width: 55%;
-    height: 100%;
-    right: 0;
-    background: #2f2f2f;
-    clip-path: polygon(15% 0, 100% 50%, 15% 100%);
-}
-</style>
-<style>
+.logo { width: 100%; height: 100%; position: relative; }
+.blue { position: absolute; width: 55%; height: 100%; background: #0a4fd6; clip-path: polygon(0 10%, 85% 0, 45% 100%, 0 90%); }
+.white { position: absolute; width: 70%; height: 100%; left: 30%; background: white; clip-path: polygon(20% 0, 60% 0, 40% 50%, 60% 100%, 20% 100%, 40% 50%); }
+.dark { position: absolute; width: 55%; height: 100%; right: 0; background: #2f2f2f; clip-path: polygon(15% 0, 100% 50%, 15% 100%); }
 
 /* ================= THEME ================= */
 :root{
@@ -115,71 +74,29 @@ header h3{margin:0;font-size:20px;font-weight:700}
  padding:16px;
  box-shadow:0 25px 70px rgba(0,0,0,.45);
 }
-.card h4{
- margin:0;font-size:12px;
- color:var(--muted);
- text-transform:uppercase
-}
+.card h4{margin:0;font-size:12px;color:var(--muted);text-transform:uppercase}
 .card p{margin:6px 0;font-size:24px;font-weight:700}
-.wave{
- height:8px;border-radius:20px;
- background:var(--bg);overflow:hidden
-}
-.wave span{
- display:block;height:100%;
- background:linear-gradient(90deg,var(--blue),var(--purple));
- transition:width 1s ease
-}
+.wave{height:8px;border-radius:20px;background:var(--bg);overflow:hidden}
+.wave span{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width 1s ease}
 
 /* ================= FILTER ================= */
 .filter-bar{padding:0 20px 10px}
-select{
- padding:6px 10px;border-radius:10px;
- background:var(--card);color:var(--txt);
- border:1px solid var(--border);
-}
+select{padding:6px 10px;border-radius:10px;background:var(--card);color:var(--txt);border:1px solid var(--border);}
 
 /* ================= TABLE ================= */
 .container{padding:0 20px 30px}
-.table-wrap{
- background:var(--panel);
- border-radius:22px;
- box-shadow:0 40px 120px rgba(0,0,0,.5);
- overflow:auto;
-}
+.table-wrap{background:var(--panel);border-radius:22px;box-shadow:0 40px 120px rgba(0,0,0,.5);overflow:auto;}
 table{width:100%;border-collapse:collapse;font-size:12px}
-th{
- padding:12px;background:var(--panel);
- border-bottom:1px solid var(--border);
- text-transform:uppercase;
-}
-td{
- padding:10px;border-bottom:1px solid var(--bg);
- text-align:center;
-}
+th{padding:12px;background:var(--panel);border-bottom:1px solid var(--border);text-transform:uppercase;}
+td{padding:10px;border-bottom:1px solid var(--bg);text-align:center;}
 tr.freeze{opacity:.45}
 tr.current{background:var(--current)}
 tr.next{background:var(--next)}
 
-input{
- width:90px;padding:6px;
- text-align:right;
- background:var(--bg);color:var(--txt);
- border:1px solid var(--border);
- border-radius:10px;
-}
+input{width:90px;padding:6px;text-align:right;background:var(--bg);color:var(--txt);border:1px solid var(--border);border-radius:10px;}
 input:disabled{opacity:.4}
 
-.btn{
- padding:5px 9px;
- border-radius:10px;
- border:1px solid var(--border);
- background:linear-gradient(180deg,var(--card),var(--bg));
- color:var(--txt);
- font-size:11px;
- cursor:pointer;
- margin:2px;
-}
+.btn{padding:5px 9px;border-radius:10px;border:1px solid var(--border);background:linear-gradient(180deg,var(--card),var(--bg));color:var(--txt);font-size:11px;cursor:pointer;margin:2px;}
 
 .paidCell{background:rgba(34,197,94,.25)}
 .pendingCell{background:rgba(245,158,11,.25)}
@@ -187,34 +104,17 @@ input:disabled{opacity:.4}
 .days-ok{color:var(--green)}
 .days-warn{color:var(--amber)}
 .days-over{color:var(--red)}
-
 .freeze-days{color:var(--red);font-weight:700}
 
 /* MINI DONUT */
-.donut{
- width:34px;height:34px;border-radius:50%;
- background:
-  conic-gradient(
-   var(--green) 0deg,
-   var(--green) var(--a),
-   var(--amber) var(--a),
-   var(--amber) var(--b),
-   var(--blue) var(--b),
-   var(--blue) 360deg
-  );
- margin:auto;
-}
+.donut{width:34px;height:34px;border-radius:50%;margin:auto;background:conic-gradient(var(--green) 0deg,var(--green) var(--a),var(--amber) var(--a),var(--amber) var(--b),var(--blue) var(--b),var(--blue) 360deg);}
 
 /* MINI BAR */
-.mini{
- display:flex;height:8px;border-radius:6px;
- overflow:hidden;background:var(--bg)
-}
+.mini{display:flex;height:8px;border-radius:6px;overflow:hidden;background:var(--bg)}
 .mini div:nth-child(1){background:var(--green)}
 .mini div:nth-child(2){background:var(--amber)}
 
 footer{text-align:center;padding:14px;font-size:12px;opacity:.6}
-
 .loading { opacity: 0.6; pointer-events: none; }
 
 .config-panel {
@@ -245,7 +145,7 @@ footer{text-align:center;padding:14px;font-size:12px;opacity:.6}
 <header>
  <h3>SEAPORT(Air division) - IATA Cass payment calendar</h3>
  <button class="theme-btn" onclick="toggleTheme()">🌙 Mode of View 🌞</button>
- <div class="watermark">Dev by Mcode Version 1.6 - Local + Freeze Config</div>
+ <div class="watermark">Dev by Mcode Version 1.7 - Vercel KV + Freeze Config</div>
 </header>
 
 <div class="dashboard">
@@ -295,7 +195,7 @@ footer{text-align:center;padding:14px;font-size:12px;opacity:.6}
  <div>Today: <span id="configToday"></span></div>
 </div>
 
-<footer>Mcode Version 1.6 ©2025 Local Storage - Freeze After <span id="freezeDisplay">2</span> Days</footer>
+<footer>Mcode Version 1.7 ©2025 Vercel KV - Freeze After <span id="freezeDisplay">2</span> Days (Ctrl+C)</footer>
 
 <script>
 /* ================= GLOBAL STATE ================= */
@@ -305,13 +205,30 @@ let today = new Date();
 let ci = -1;
 let config = { freezeDays: 2 };
 
+/* ================= FALLBACK API (Single File Vercel) ================= */
+async function apiCall(path, options = {}) {
+ try {
+  const url = '/api/cass';
+  const res = await fetch(url, {
+   ...options,
+   headers: { 'Content-Type': 'application/json', ...options.headers }
+  });
+  return await res.json();
+ } catch (e) {
+  console.error('API Error:', e);
+  return {};
+ }
+}
+
 /* ================= CONFIG ================= */
 function loadConfig() {
  try {
   const saved = localStorage.config || '{}';
   config = { ...config, ...JSON.parse(saved) };
-  document.getElementById('freezeDays').value = config.freezeDays;
-  document.getElementById('freezeDisplay').textContent = config.freezeDays;
+  const freezeEl = document.getElementById('freezeDays');
+  if (freezeEl) freezeEl.value = config.freezeDays;
+  const displayEl = document.getElementById('freezeDisplay');
+  if (displayEl) displayEl.textContent = config.freezeDays;
  } catch(e) {
   config = { freezeDays: 2 };
  }
@@ -361,7 +278,7 @@ function updateDashboard() {
 
  let dInvTotal = 0, dPendTotal = 0, dRemTotal = 0, dBorTotal = 0, dAVLTotal = 0;
 
- configToday.textContent = today.toLocaleDateString('en-IN');
+ if (configToday) configToday.textContent = today.toLocaleDateString('en-IN');
 
  periods.forEach((p, i) => {
   if (i === ci) {
@@ -403,11 +320,9 @@ function renderTable() {
  const tb = document.getElementById("tbody");
  const periodFilter = document.getElementById("periodFilter");
  
- // Clear existing
  tb.innerHTML = "";
  periodFilter.innerHTML = '<option value="ALL">All Periods</option>';
 
- // Find current index
  ci = periods.findIndex(p => new Date(p[2]) >= today);
 
  periods.forEach((p, i) => {
@@ -438,7 +353,6 @@ function renderTable() {
   tr.dataset.period = p[0];
 
   const disabledAttr = (isFrozenPeriod || i > ci + 1) ? "disabled" : "";
-  const inputCls = isFrozenPeriod ? "freeze" : "";
 
   tr.innerHTML = `
    <td>${fnLabel(p[0])}</td>
@@ -446,7 +360,7 @@ function renderTable() {
    <td>${p[2]} ${isFrozenPeriod ? `<span class="freeze-days">(FROZEN)</span>` : ''}</td>
    <td class="${freezeCls}">${days}</td>
 
-   <td class="${inputCls} ${slp ? 'paidCell' : 'pendingCell'}">
+   <td class="${slp ? 'paidCell' : 'pendingCell'}">
     <input ${disabledAttr} value="${sl}" onchange="saveValue('${p[0]}','sl',this.value)">
    </td>
    <td>
@@ -454,7 +368,7 @@ function renderTable() {
     <button class="btn" ${disabledAttr} onclick="togglePaid('${p[0]}','slp',0)">Pending</button>
    </td>
 
-   <td class="${inputCls} ${aip ? 'paidCell' : 'pendingCell'}">
+   <td class="${aip ? 'paidCell' : 'pendingCell'}">
     <input ${disabledAttr} value="${ai}" onchange="saveValue('${p[0]}','ai',this.value)">
    </td>
    <td>
@@ -462,7 +376,7 @@ function renderTable() {
     <button class="btn" ${disabledAttr} onclick="togglePaid('${p[0]}','aip',0)">Pending</button>
    </td>
 
-   <td class="${inputCls} ${sgp ? 'paidCell' : 'pendingCell'}">
+   <td class="${sgp ? 'paidCell' : 'pendingCell'}">
     <input ${disabledAttr} value="${sg}" onchange="saveValue('${p[0]}','sg',this.value)">
    </td>
    <td>
@@ -473,11 +387,11 @@ function renderTable() {
    <td>${inr(inv)}</td>
    <td>${inr(paid)}</td>
 
-   <td class="${inputCls}">
+   <td>
     <input ${disabledAttr} value="${avl}" onchange="saveValue('${p[0]}','avl',this.value)">
    </td>
 
-   <td class="${inputCls}">
+   <td>
     <input ${disabledAttr} value="${bor}" onchange="saveValue('${p[0]}','bor',this.value)">
    </td>
 
@@ -496,7 +410,6 @@ function renderTable() {
   `;
   tb.appendChild(tr);
 
-  // Add filter option
   const opt = document.createElement("option");
   opt.value = p[0];
   opt.text = fnLabel(p[0]) + (isFrozenPeriod ? ' [FROZEN]' : '');
@@ -509,36 +422,41 @@ function renderTable() {
 }
 
 function applyFilter() {
- const v = periodFilter.value;
+ const v = document.getElementById("periodFilter").value;
  document.querySelectorAll("#tbody tr").forEach(r => {
   r.style.display = (v === "ALL" || r.dataset.period === v) ? "" : "none";
  });
 }
 
-function loadData() {
+async function loadData() {
  try {
-  store = JSON.parse(localStorage.cass || '{}');
- } catch(e) {
+  document.body.classList.add("loading");
+  store = await apiCall('/api/cass', { method: 'GET' });
+ } catch (e) {
+  console.error("Load error:", e);
   store = {};
  }
  renderTable();
 }
 
-function saveData() {
- localStorage.cass = JSON.stringify(store);
+async function saveData() {
+ await apiCall('/api/cass', { 
+  method: 'POST', 
+  body: JSON.stringify(store) 
+ });
 }
 
-function saveValue(code, field, value) {
+async function saveValue(code, field, value) {
  store[code] = store[code] || {};
  store[code][field] = +value.replace(/[^0-9]/g, "") || 0;
- saveData();
+ await saveData();
  renderTable();
 }
 
-function togglePaid(code, field, value) {
+async function togglePaid(code, field, value) {
  store[code] = store[code] || {};
  store[code][field] = value;
- saveData();
+ await saveData();
  renderTable();
 }
 
@@ -581,19 +499,13 @@ let y = 30;
 function fly() {
  x += 25 + Math.random() * 15;
  y += Math.random() * 8 - 4;
-
- if (x > 120) {
-  x = -30;
-  y = Math.random() * 60;
- }
-
+ if (x > 120) { x = -30; y = Math.random() * 60; }
  const bank = Math.random() * 12 - 6;
  plane.style.left = x + "vw";
  plane.style.top = y + "vh";
  plane.style.transform = `rotate(${bank}deg)`;
  setTimeout(fly, 5000);
 }
-
 fly();
 
 /* ================= INIT ================= */
@@ -602,6 +514,48 @@ loadData();
 document.addEventListener('keydown', (e) => {
  if (e.key === 'c' && e.ctrlKey) toggleConfig();
 });
+</script>
+
+<!-- Vercel KV API Route (Embedded for Single File Deploy) -->
+<script>
+/*
+VERCEL API ROUTE: Save this as api/cass.js for Vercel deployment:
+
+import { kv } from '@vercel/kv';
+
+export const runtime = 'edge';
+
+export async function GET() {
+  try {
+    const data = await kv.get('cass-data');
+    return new Response(JSON.stringify(data || {}), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' }
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({}), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+}
+
+export async function POST(request) {
+  try {
+    const body = await request.json();
+    await kv.set('cass-data', body);
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: 'Save failed' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+}
+*/
 </script>
 </body>
 </html>
