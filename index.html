@@ -157,7 +157,7 @@ td{
  padding:10px;border-bottom:1px solid var(--bg);
  text-align:center;
 }
-tr.freeze{opacity:.45}
+tr.{opacity:.45}
 tr.current{background:var(--current)}
 tr.next{background:var(--next)}
 
@@ -319,14 +319,25 @@ const periods=[
 const store=JSON.parse(localStorage.cass||"{}");
 const tb=document.getElementById("tbody");
 const today=new Date();
-const ci=periods.findIndex(p=>new Date(p[2])>=today);
+// Adjustable freeze offset (days before remittance date)
+const freezeOffset = 2; // Change this number to freeze earlier/later
+const ci = periods.findIndex(p => (new Date(p[2]) - freezeOffset*86400000) >= today);
 
-function inr(x){return "₹"+(x||0).toLocaleString("en-IN")}
-function fnLabel(code){
- const y=code.slice(0,4),m=code.slice(4,6),f=code.slice(6,7);
- const mn=["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
- return `${mn[+m]} ${y} – ${f==="1"?"1st":"2nd"} FN`;
+
+function fnLabelByDate(invoiceDateStr, remittanceDateStr){
+  const start = new Date(invoiceDateStr);
+  const end = new Date(remittanceDateStr);
+
+  const y = start.getFullYear();
+  const m = start.getMonth(); // 0-indexed
+  const day = start.getDate();
+
+  const mn = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  let fn = (day <= 16) ? "1st" : "2nd";
+
+  return `${mn[m]} ${y} – ${fn} FN`;
 }
+
 
 let dInv=0,dPend=0,dRem=0,dBor=0,dAVL=0;
 
@@ -359,7 +370,7 @@ periods.forEach((p,i)=>{
  tr.dataset.period=p[0];
 
  tr.innerHTML=`
-<td>${fnLabel(p[0])}</td>
+<td>${fnLabelByDate(p[1], p[2])}</td>
 <td>${p[1]}</td>
 <td>${p[2]}</td>
 <td class="${dayCls}">${days}</td>
