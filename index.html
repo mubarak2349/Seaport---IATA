@@ -10,7 +10,7 @@
     position: fixed;
     width: 260px;
     height: 110px;
-  
+
     opacity: 0.14;              /* lightly visible */
     pointer-events: none;
     z-index: 0;
@@ -94,7 +94,7 @@ header{
  box-shadow:0 20px 60px rgba(0,0,0,.4);
  position:sticky;top:0;z-index:10;
 }
-header h2{margin:0;font-size:20px;font-weight:700}
+header h3{margin:0;font-size:20px;font-weight:700}
 .theme-btn{
  margin-left:auto;padding:6px 12px;border-radius:14px;
  border:1px solid var(--border);background:var(--card);
@@ -157,7 +157,7 @@ td{
  padding:10px;border-bottom:1px solid var(--bg);
  text-align:center;
 }
-tr.{opacity:.45}
+tr.freeze{opacity:.45}
 tr.current{background:var(--current)}
 tr.next{background:var(--next)}
 
@@ -188,6 +188,8 @@ input:disabled{opacity:.4}
 .days-warn{color:var(--amber)}
 .days-over{color:var(--red)}
 
+.freeze-days{color:var(--red);font-weight:700}
+
 /* MINI DONUT */
 .donut{
  width:34px;height:34px;border-radius:50%;
@@ -212,6 +214,22 @@ input:disabled{opacity:.4}
 .mini div:nth-child(2){background:var(--amber)}
 
 footer{text-align:center;padding:14px;font-size:12px;opacity:.6}
+
+.loading { opacity: 0.6; pointer-events: none; }
+
+.config-panel {
+ position: fixed;
+ top: 80px;
+ right: 20px;
+ background: var(--panel);
+ border-radius: 12px;
+ padding: 12px;
+ box-shadow: 0 10px 30px rgba(0,0,0,.3);
+ border: 1px solid var(--border);
+ z-index: 100;
+ font-size: 11px;
+}
+.config-panel input { width: 60px; margin: 0 4px; }
 </style>
 </head>
 
@@ -224,16 +242,11 @@ footer{text-align:center;padding:14px;font-size:12px;opacity:.6}
     </div>
 </div>
 
-
-<header><h3 class>SEAPORT(Air division) - IATA Cass payment calendar</h3>
+<header>
+ <h3>SEAPORT(Air division) - IATA Cass payment calendar</h3>
  <button class="theme-btn" onclick="toggleTheme()">🌙 Mode of View 🌞</button>
- 
- <div class="watermark">Dev by Mcode Version 1.4</div>
-
-
+ <div class="watermark">Dev by Mcode Version 1.6 - Local + Freeze Config</div>
 </header>
-
-
 
 <div class="dashboard">
  <div class="card"><h4>Current Period Invoice</h4><p id="dInv">₹0</p><div class="wave"><span id="wInv"></span></div></div>
@@ -275,18 +288,262 @@ footer{text-align:center;padding:14px;font-size:12px;opacity:.6}
 </div>
 </div>
 
-<footer>Mcode Version 1.4 ©2025 Mubarak</footer>
+<!-- Config Panel -->
+<div class="config-panel" id="configPanel" style="display:none;">
+ <div>Freeze Days: <input id="freezeDays" type="number" value="2" min="0" max="10" onchange="saveConfig()"> 
+ <button class="btn" onclick="toggleConfig()">✕</button></div>
+ <div>Today: <span id="configToday"></span></div>
+</div>
+
+<footer>Mcode Version 1.6 ©2025 Local Storage - Freeze After <span id="freezeDisplay">2</span> Days</footer>
 
 <script>
-/* ================= THEME ================= */
-if(localStorage.theme==="light")document.body.classList.add("light");
-function toggleTheme(){
- document.body.classList.toggle("light");
- localStorage.theme=document.body.classList.contains("light")?"light":"dark";
+/* ================= GLOBAL STATE ================= */
+let store = {};
+let periods = [];
+let today = new Date();
+let ci = -1;
+let config = { freezeDays: 2 };
+
+/* ================= CONFIG ================= */
+function loadConfig() {
+ try {
+  const saved = localStorage.config || '{}';
+  config = { ...config, ...JSON.parse(saved) };
+  document.getElementById('freezeDays').value = config.freezeDays;
+  document.getElementById('freezeDisplay').textContent = config.freezeDays;
+ } catch(e) {
+  config = { freezeDays: 2 };
+ }
 }
 
-/* ================= DATA ================= */
-const periods=[
+function saveConfig() {
+ config.freezeDays = +document.getElementById('freezeDays').value || 2;
+ localStorage.config = JSON.stringify(config);
+ document.getElementById('freezeDisplay').textContent = config.freezeDays;
+ renderTable();
+}
+
+function toggleConfig() {
+ const panel = document.getElementById('configPanel');
+ panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+/* ================= THEME ================= */
+if(localStorage.theme==="light") document.body.classList.add("light");
+function toggleTheme(){
+ document.body.classList.toggle("light");
+ localStorage.theme = document.body.classList.contains("light") ? "light" : "dark";
+}
+
+/* ================= UTILS ================= */
+function inr(x){ return "₹" + (x || 0).toLocaleString("en-IN"); }
+function fnLabel(code){
+ const y = code.slice(0,4), m = code.slice(4,6), f = code.slice(6,7);
+ const mn = ["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+ return `${mn[+m]} ${y} – ${f==="1" ? "1st" : "2nd"} FN`;
+}
+
+function isFrozen(remittanceDateStr) {
+ const remDate = new Date(remittanceDateStr);
+ const freezeDate = new Date(remDate);
+ freezeDate.setDate(freezeDate.getDate() + config.freezeDays);
+ return today > freezeDate;
+}
+
+function updateDashboard() {
+ const dInv = document.getElementById("dInv");
+ const dPend = document.getElementById("dPend");
+ const dRem = document.getElementById("dRem");
+ const dBor = document.getElementById("dBor");
+ const dAVL = document.getElementById("dAVL");
+ const configToday = document.getElementById("configToday");
+
+ let dInvTotal = 0, dPendTotal = 0, dRemTotal = 0, dBorTotal = 0, dAVLTotal = 0;
+
+ configToday.textContent = today.toLocaleDateString('en-IN');
+
+ periods.forEach((p, i) => {
+  if (i === ci) {
+   const d = store[p[0]] || {};
+   const sl = +d.sl || 0, ai = +d.ai || 0, sg = +d.sg || 0;
+   const slp = d.slp || 0, aip = d.aip || 0, sgp = d.sgp || 0;
+   const avl = +d.avl || 0;
+   const inv = sl + ai + sg;
+   const paid = (slp ? sl : 0) + (aip ? ai : 0) + (sgp ? sg : 0);
+   const rem = inv - paid - avl;
+   
+   dInvTotal = inv;
+   dPendTotal = inv - paid;
+   dRemTotal = rem;
+   dAVLTotal = avl;
+  }
+  const d = store[p[0]] || {};
+  dBorTotal += +d.bor || 0;
+ });
+
+ dInv.textContent = inr(dInvTotal);
+ dPend.textContent = inr(dPendTotal);
+ dRem.textContent = inr(dRemTotal);
+ dBor.textContent = inr(dBorTotal);
+ dAVL.textContent = inr(dAVLTotal);
+
+ function w(id, val, max) {
+  const el = document.getElementById(id);
+  if (el) el.style.width = Math.min(100, (val / (max || 1)) * 100) + "%";
+ }
+ w("wInv", dInvTotal, dInvTotal);
+ w("wPend", dPendTotal, dInvTotal);
+ w("wRem", dRemTotal, dInvTotal);
+ w("wBor", dBorTotal, dBorTotal);
+ w("wAVL", dAVLTotal, dInvTotal);
+}
+
+function renderTable() {
+ const tb = document.getElementById("tbody");
+ const periodFilter = document.getElementById("periodFilter");
+ 
+ // Clear existing
+ tb.innerHTML = "";
+ periodFilter.innerHTML = '<option value="ALL">All Periods</option>';
+
+ // Find current index
+ ci = periods.findIndex(p => new Date(p[2]) >= today);
+
+ periods.forEach((p, i) => {
+  const d = store[p[0]] || {};
+  const sl = +d.sl || 0, ai = +d.ai || 0, sg = +d.sg || 0;
+  const slp = d.slp || 0, aip = d.aip || 0, sgp = d.sgp || 0;
+  const avl = +d.avl || 0, bor = +d.bor || 0;
+
+  const inv = sl + ai + sg;
+  const paid = (slp ? sl : 0) + (aip ? ai : 0) + (sgp ? sg : 0);
+  const rem = inv - paid - avl;
+
+  const remDate = new Date(p[2]);
+  const days = Math.ceil((remDate - today) / 86400000);
+  const isPastRemittance = days < 0;
+  const isFrozenPeriod = isPastRemittance && isFrozen(p[2]);
+  const dayCls = days < 0 ? "days-over" : days <= 17 ? "days-warn" : "days-ok";
+  const freezeCls = isFrozenPeriod ? "freeze-days" : dayCls;
+
+  const a = (inv ? sl / inv * 360 : 0);
+  const b = (inv ? (sl + ai) / inv * 360 : 0);
+
+  const tr = document.createElement("tr");
+  tr.className = isFrozenPeriod ? "freeze" : 
+                 i < ci ? "freeze" : 
+                 i === ci ? "current" : 
+                 i === ci + 1 ? "next" : "freeze";
+  tr.dataset.period = p[0];
+
+  const disabledAttr = (isFrozenPeriod || i > ci + 1) ? "disabled" : "";
+  const inputCls = isFrozenPeriod ? "freeze" : "";
+
+  tr.innerHTML = `
+   <td>${fnLabel(p[0])}</td>
+   <td>${p[1]}</td>
+   <td>${p[2]} ${isFrozenPeriod ? `<span class="freeze-days">(FROZEN)</span>` : ''}</td>
+   <td class="${freezeCls}">${days}</td>
+
+   <td class="${inputCls} ${slp ? 'paidCell' : 'pendingCell'}">
+    <input ${disabledAttr} value="${sl}" onchange="saveValue('${p[0]}','sl',this.value)">
+   </td>
+   <td>
+    <button class="btn" ${disabledAttr} onclick="togglePaid('${p[0]}','slp',1)">Paid</button>
+    <button class="btn" ${disabledAttr} onclick="togglePaid('${p[0]}','slp',0)">Pending</button>
+   </td>
+
+   <td class="${inputCls} ${aip ? 'paidCell' : 'pendingCell'}">
+    <input ${disabledAttr} value="${ai}" onchange="saveValue('${p[0]}','ai',this.value)">
+   </td>
+   <td>
+    <button class="btn" ${disabledAttr} onclick="togglePaid('${p[0]}','aip',1)">Paid</button>
+    <button class="btn" ${disabledAttr} onclick="togglePaid('${p[0]}','aip',0)">Pending</button>
+   </td>
+
+   <td class="${inputCls} ${sgp ? 'paidCell' : 'pendingCell'}">
+    <input ${disabledAttr} value="${sg}" onchange="saveValue('${p[0]}','sg',this.value)">
+   </td>
+   <td>
+    <button class="btn" ${disabledAttr} onclick="togglePaid('${p[0]}','sgp',1)">Paid</button>
+    <button class="btn" ${disabledAttr} onclick="togglePaid('${p[0]}','sgp',0)">Pending</button>
+   </td>
+
+   <td>${inr(inv)}</td>
+   <td>${inr(paid)}</td>
+
+   <td class="${inputCls}">
+    <input ${disabledAttr} value="${avl}" onchange="saveValue('${p[0]}','avl',this.value)">
+   </td>
+
+   <td class="${inputCls}">
+    <input ${disabledAttr} value="${bor}" onchange="saveValue('${p[0]}','bor',this.value)">
+   </td>
+
+   <td>${inr(rem)}</td>
+
+   <td>
+    <div class="donut" style="--a:${a}deg;--b:${b}deg"></div>
+   </td>
+
+   <td>
+    <div class="mini">
+     <div style="width:${inv ? paid / inv * 100 : 0}%"></div>
+     <div style="width:${inv ? rem / inv * 100 : 0}%"></div>
+    </div>
+   </td>
+  `;
+  tb.appendChild(tr);
+
+  // Add filter option
+  const opt = document.createElement("option");
+  opt.value = p[0];
+  opt.text = fnLabel(p[0]) + (isFrozenPeriod ? ' [FROZEN]' : '');
+  periodFilter.appendChild(opt);
+ });
+
+ updateDashboard();
+ applyFilter();
+ document.body.classList.remove("loading");
+}
+
+function applyFilter() {
+ const v = periodFilter.value;
+ document.querySelectorAll("#tbody tr").forEach(r => {
+  r.style.display = (v === "ALL" || r.dataset.period === v) ? "" : "none";
+ });
+}
+
+function loadData() {
+ try {
+  store = JSON.parse(localStorage.cass || '{}');
+ } catch(e) {
+  store = {};
+ }
+ renderTable();
+}
+
+function saveData() {
+ localStorage.cass = JSON.stringify(store);
+}
+
+function saveValue(code, field, value) {
+ store[code] = store[code] || {};
+ store[code][field] = +value.replace(/[^0-9]/g, "") || 0;
+ saveData();
+ renderTable();
+}
+
+function togglePaid(code, field, value) {
+ store[code] = store[code] || {};
+ store[code][field] = value;
+ saveData();
+ renderTable();
+}
+
+/* ================= CORRECTED PERIOD DATA ================= */
+periods = [
  ["20251102F","2025-12-09","2025-12-30"],
  ["20251201F","2025-12-25","2026-01-14"],
  ["20251202F","2026-01-08","2026-01-30"],
@@ -316,185 +573,35 @@ const periods=[
  ["20261202F","2027-01-07","2027-02-01"]
 ];
 
-const store=JSON.parse(localStorage.cass||"{}");
-const tb=document.getElementById("tbody");
-const today=new Date();
-// Adjustable freeze offset (days before remittance date)
-const freezeOffset = 2; // Change this number to freeze earlier/later
-const ci = periods.findIndex(p => (new Date(p[2]) - freezeOffset*86400000) >= today);
-
-
-function fnLabelByDate(invoiceDateStr, remittanceDateStr){
-  const start = new Date(invoiceDateStr);
-  const end = new Date(remittanceDateStr);
-
-  const y = start.getFullYear();
-  const m = start.getMonth(); // 0-indexed
-  const day = start.getDate();
-
-  const mn = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  let fn = (day <= 16) ? "1st" : "2nd";
-
-  return `${mn[m]} ${y} – ${fn} FN`;
-}
-
-
-let dInv=0,dPend=0,dRem=0,dBor=0,dAVL=0;
-
-periods.forEach((p,i)=>{
- const d=store[p[0]]||{};
- const sl=+d.sl||0,ai=+d.ai||0,sg=+d.sg||0;
- const slp=d.slp||0,aip=d.aip||0,sgp=d.sgp||0;
- const avl=+d.avl||0,bor=+d.bor||0;
-
- const inv=sl+ai+sg;
- const paid=(slp?sl:0)+(aip?ai:0)+(sgp?sg:0);
- const rem=inv-paid-avl;
-
- if(i===ci){
-  dInv=inv;
-  dPend=inv-paid;
-  dRem=rem;
-  dAVL=avl;
- }
- dBor+=bor;
-
- const days=Math.ceil((new Date(p[2])-today)/86400000);
- const dayCls=days<0?"days-over":days<=17?"days-warn":"days-ok";
-
- const a=(inv?sl/inv*360:0);
- const b=(inv?(sl+ai)/inv*360:0);
-
- const tr=document.createElement("tr");
- tr.className=i<ci?"freeze":i===ci?"current":i===ci+1?"next":"freeze";
- tr.dataset.period=p[0];
-
- tr.innerHTML=`
-<td>${fnLabelByDate(p[1], p[2])}</td>
-<td>${p[1]}</td>
-<td>${p[2]}</td>
-<td class="${dayCls}">${days}</td>
-
-<td class="${slp?'paidCell':'pendingCell'}">
- <input ${i>ci+1?"disabled":""} value="${sl}" onchange="sv('${p[0]}','sl',this.value)">
-</td>
-<td>
- <button class="btn" onclick="pd('${p[0]}','slp',1)">Paid</button>
- <button class="btn" onclick="pd('${p[0]}','slp',0)">Pending</button>
-</td>
-
-<td class="${aip?'paidCell':'pendingCell'}">
- <input ${i>ci+1?"disabled":""} value="${ai}" onchange="sv('${p[0]}','ai',this.value)">
-</td>
-<td>
- <button class="btn" onclick="pd('${p[0]}','aip',1)">Paid</button>
- <button class="btn" onclick="pd('${p[0]}','aip',0)">Pending</button>
-</td>
-
-<td class="${sgp?'paidCell':'pendingCell'}">
- <input ${i>ci+1?"disabled":""} value="${sg}" onchange="sv('${p[0]}','sg',this.value)">
-</td>
-<td>
- <button class="btn" onclick="pd('${p[0]}','sgp',1)">Paid</button>
- <button class="btn" onclick="pd('${p[0]}','sgp',0)">Pending</button>
-</td>
-
-<td>${inr(inv)}</td>
-<td>${inr(paid)}</td>
-
-<td>
- <input ${i>ci+1?"disabled":""} value="${avl}" onchange="sv('${p[0]}','avl',this.value)">
-</td>
-
-<td>
- <input ${i>ci+1?"disabled":""} value="${bor}" onchange="sv('${p[0]}','bor',this.value)">
-</td>
-
-<td>${inr(rem)}</td>
-
-<td>
- <div class="donut" style="--a:${a}deg;--b:${b}deg"></div>
-</td>
-
-<td>
- <div class="mini">
-  <div style="width:${inv?paid/inv*100:0}%"></div>
-  <div style="width:${inv?rem/inv*100:0}%"></div>
- </div>
-</td>
-`;
- tb.appendChild(tr);
-
- const opt=document.createElement("option");
- opt.value=p[0];
- opt.text=fnLabel(p[0]);
- periodFilter.appendChild(opt);
-});
-
-/* ================= DASHBOARD ================= */
-document.getElementById("dInv").innerText=inr(dInv);
-document.getElementById("dPend").innerText=inr(dPend);
-document.getElementById("dRem").innerText=inr(dRem);
-document.getElementById("dBor").innerText=inr(dBor);
-document.getElementById("dAVL").innerText=inr(dAVL);
-
-function w(id,val,max){
- document.getElementById(id).style.width=Math.min(100,(val/(max||1))*100)+"%";
-}
-w("wInv",dInv,dInv);
-w("wPend",dPend,dInv);
-w("wRem",dRem,dInv);
-w("wBor",dBor,dBor);
-w("wAVL",dAVL,dInv);
-
-function sv(c,f,v){
- store[c]=store[c]||{};
- store[c][f]=+v.replace(/[^0-9]/g,"")||0;
- localStorage.cass=JSON.stringify(store);
- location.reload();
-}
-function pd(c,f,v){
- store[c]=store[c]||{};
- store[c][f]=v;
- localStorage.cass=JSON.stringify(store);
- location.reload();
-}
-function applyFilter(){
- const v=periodFilter.value;
- document.querySelectorAll("#tbody tr").forEach(r=>{
-  r.style.display=(v==="ALL"||r.dataset.period===v)?"":"none";
- });
-}
-</script>
-<script>
+/* ================= PLANE ANIMATION ================= */
 const plane = document.getElementById("bgFlight");
-
 let x = -30;
 let y = 30;
 
 function fly() {
-    x += 25 + Math.random() * 15;  // forward thrust
-    y += Math.random() * 8 - 4;    // altitude change
+ x += 25 + Math.random() * 15;
+ y += Math.random() * 8 - 4;
 
-    if (x > 120) {
-        x = -30;
-        y = Math.random() * 60;
-    }
+ if (x > 120) {
+  x = -30;
+  y = Math.random() * 60;
+ }
 
-    const bank = Math.random() * 12 - 6;
-
-    plane.style.left = x + "vw";
-    plane.style.top = y + "vh";
-    plane.style.transform = `rotate(${bank}deg)`;
-
-    setTimeout(fly, 5000);
+ const bank = Math.random() * 12 - 6;
+ plane.style.left = x + "vw";
+ plane.style.top = y + "vh";
+ plane.style.transform = `rotate(${bank}deg)`;
+ setTimeout(fly, 5000);
 }
 
 fly();
+
+/* ================= INIT ================= */
+loadConfig();
+loadData();
+document.addEventListener('keydown', (e) => {
+ if (e.key === 'c' && e.ctrlKey) toggleConfig();
+});
 </script>
->
-
-
-
 </body>
 </html>
