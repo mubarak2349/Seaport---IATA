@@ -2,392 +2,328 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SEAPORT AIR DIV – CASS PAYMENT DETAILS</title>
+<title>SEAPORT AIR DIV – CASS PAYMENT ENTERPRISE</title>
 
 <style>
-/* ===== Flying Logo ===== */
-.bg-flight{
- position:fixed;width:260px;height:110px;opacity:.14;
- pointer-events:none;z-index:0;
- clip-path:polygon(5% 50%,15% 35%,40% 30%,70% 20%,95% 50%,70% 80%,40% 70%,15% 65%);
- transition:transform 5s linear,top 5s linear,left 5s linear
-}
-.logo{width:100%;height:100%;position:relative}
-.blue{position:absolute;width:55%;height:100%;background:#0a4fd6;clip-path:polygon(0 10%,85% 0,45% 100%,0 90%)}
-.white{position:absolute;width:70%;height:100%;left:30%;background:#fff;clip-path:polygon(20% 0,60% 0,40% 50%,60% 100%,20% 100%,40% 50%)}
-.dark{position:absolute;width:55%;height:100%;right:0;background:#2f2f2f;clip-path:polygon(15% 0,100% 50%,15% 100%)}
+/* ===== SEAPORT LOGO (Static - Seaport Colors) ===== */
+.seaport-logo{position:fixed;width:220px;height:90px;opacity:.12;pointer-events:none;z-index:0;top:20px;left:20px}
+.logo-shape{width:100%;height:100%;position:relative}
+.blue-part{position:absolute;width:55%;height:100%;background:#0066cc;clip-path:polygon(0 10%,85% 0,45% 100%,0 90%)}
+.white-part{position:absolute;width:70%;height:100%;left:30%;background:#ffffff;clip-path:polygon(20% 0,60% 0,40% 50%,60% 100%,20% 100%,40% 50%)}
+.dark-part{position:absolute;width:55%;height:100%;right:0;background:#1a1a1a;clip-path:polygon(15% 0,100% 50%,15% 100%)}
 
 /* ===== THEME ===== */
-:root{
- --bg:#020617;--panel:#020617;--card:#0b1220;--border:#1f2937;
- --txt:#e5e7eb;--muted:#9ca3af;
- --green:#22c55e;--amber:#f59e0b;--red:#ef4444;
- --blue:#38bdf8;--purple:#a78bfa;
- --current:#1e3a8a;--next:#0f766e
-}
-.light{
- --bg:#f8fafc;--panel:#fff;--card:#fff;--border:#e5e7eb;
- --txt:#020617;--muted:#475569;
- --current:#eef2ff;--next:#ecfeff
-}
+:root{--bg:#020617;--panel:#020617;--card:#0b1220;--border:#1f2937;--txt:#e5e7eb;--muted:#9ca3af;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--blue:#38bdf8;--purple:#a78bfa;--current:#1e3a8a;--next:#0f766e}
+.light{--bg:#f8fafc;--panel:#fff;--card:#fff;--border:#e5e7eb;--txt:#020617;--muted:#475569;--current:#eef2ff;--next:#ecfeff}
 
 *{box-sizing:border-box}
-body{
- margin:0;font-family:system-ui,Segoe UI,Arial;
- background:radial-gradient(circle at top,var(--card),var(--bg) 70%);
- color:var(--txt)
-}
+body{margin:0;font-family:system-ui,Segoe UI,Arial;background:radial-gradient(circle at top,var(--card),var(--bg) 70%);color:var(--txt);position:relative}
 
 /* ===== HEADER ===== */
-header{
- display:flex;align-items:center;gap:12px;
- padding:16px 22px;background:var(--panel);
- box-shadow:0 20px 60px rgba(0,0,0,.4);
- position:sticky;top:0;z-index:10
-}
-header h3{margin:0;font-size:20px}
-.theme-btn{
- margin-left:auto;padding:6px 12px;border-radius:14px;
- border:1px solid var(--border);
- background:var(--card);color:var(--txt);cursor:pointer
-}
-.watermark{font-size:12px;opacity:.6}
+header{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;background:var(--panel);box-shadow:0 20px 60px rgba(0,0,0,.4);position:sticky;top:0;z-index:100}
+header h3{margin:0;font-size:22px}
+.header-right{display:flex;gap:8px;align-items:center}
+.theme-btn{padding:8px 14px;border-radius:14px;border:1px solid var(--border);background:var(--card);color:var(--txt);cursor:pointer;font-size:12px;transition:all .2s}
+.theme-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.version-badge{padding:4px 10px;border-radius:8px;font-size:11px;font-weight:600;background:#0066cc;color:white}
+
+/* ===== AIRLINE MANAGER ===== */
+.airline-manager{padding:15px;background:var(--panel);border-radius:16px;margin:0 20px 20px 20px;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+.airline-manager h4{margin:0 0 12px 0;font-size:14px}
+.airline-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:15px}
+.airline-input{width:160px;padding:8px;border-radius:10px;background:var(--card);border:1px solid var(--border);color:var(--txt);font-size:12px}
+.add-airline-btn{background:var(--green);color:white;border-color:var(--green)}
+.remove-airline-btn{background:var(--red);color:white;border-color:var(--red)}
+.airline-list{display:flex;flex-wrap:wrap;gap:8px;align-items:center;max-width:100%}
+.airline-item{display:flex;align-items:center;gap:6px;padding:8px 12px;background:var(--card);border-radius:8px;border:1px solid var(--border);font-size:11px;font-weight:500}
+.airline-delete{cursor:pointer;color:var(--red);font-weight:600;font-size:16px;padding:4px;border-radius:4px;transition:all .2s;width:24px;height:24px;display:flex;align-items:center;justify-content:center}
+.airline-delete:hover{background:var(--red);color:white}
 
 /* ===== DASHBOARD ===== */
-.dashboard{
- padding:20px;
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
- gap:16px
-}
-.card{
- background:linear-gradient(180deg,var(--card),var(--bg));
- border-radius:18px;padding:16px;
- box-shadow:0 25px 70px rgba(0,0,0,.45)
-}
-.card h4{margin:0;font-size:12px;color:var(--muted)}
-.card p{margin:6px 0;font-size:24px;font-weight:700}
-.wave{height:8px;border-radius:20px;background:var(--bg);overflow:hidden}
-.wave span{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--purple))}
+.dashboard{padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:linear-gradient(180deg,var(--card),var(--bg));border-radius:18px;padding:20px;box-shadow:0 25px 70px rgba(0,0,0,.45);position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--purple))}
+.card h4{margin:0 0 12px 0;font-size:13px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.card-value{font-size:26px;font-weight:700;display:flex;align-items:baseline;gap:8px}
+.wave{height:8px;border-radius:20px;background:var(--bg);overflow:hidden;margin-top:12px}
+.wave span{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width .3s ease}
 
-/* ===== FILTER ===== */
-.filter-bar{padding:0 20px 10px}
-select{
- padding:6px 10px;border-radius:10px;
- background:var(--card);color:var(--txt);
- border:1px solid var(--border)
-}
+/* ===== CONTROL BAR ===== */
+.control-bar{padding:0 20px 20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--panel);border-radius:0 0 20px 20px;margin:0 -20px 20px -20px}
+select,input[type="search"],input[type="date"],input[type="number"]{padding:10px 14px;border-radius:12px;background:var(--card);color:var(--txt);border:1px solid var(--border);font-size:13px}
+#searchInput{width:240px}
+.btn{padding:10px 16px;border-radius:12px;border:1px solid var(--border);background:linear-gradient(180deg,var(--card),var(--bg));color:var(--txt);font-size:12px;font-weight:500;cursor:pointer;margin:2px;transition:all .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3)}
+.btn-success{background:var(--green);color:white;border-color:var(--green)}
+.btn-danger{background:var(--red);color:white;border-color:var(--red)}
+.btn-warning{background:var(--amber);color:white;border-color:var(--amber)}
 
-/* ===== TABLE ===== */
+/* ===== MAIN TABLE ===== */
 .container{padding:0 20px 30px}
-.table-wrap{
- background:var(--panel);border-radius:22px;
- box-shadow:0 40px 120px rgba(0,0,0,.5);
- overflow:auto
-}
+.table-wrap{background:var(--panel);border-radius:22px;box-shadow:0 40px 120px rgba(0,0,0,.5);overflow:auto;max-height:70vh;border:1px solid var(--border)}
 table{width:100%;border-collapse:collapse;font-size:12px}
-th{
- padding:12px;background:var(--panel);
- border-bottom:1px solid var(--border);
- text-transform:uppercase
-}
-td{padding:10px;border-bottom:1px solid var(--bg);text-align:center}
-tr.freeze{opacity:.45}
-tr.current{background:var(--current)}
-tr.next{background:var(--next)}
+th{padding:14px 8px;background:linear-gradient(180deg,var(--card),var(--bg));border-bottom:2px solid var(--border);text-transform:uppercase;font-weight:600;white-space:nowrap;position:sticky;top:0;z-index:10;color:var(--txt)}
+td{padding:12px 8px;border-bottom:1px solid var(--bg);text-align:center;position:relative}
+tr{transition:all .2s}
+tr:hover{background:rgba(255,255,255,.05)}
+tr.freeze{opacity:.5}
+tr.current{background:var(--current)!important}
+tr.next{background:var(--next)!important}
+tr.overdue{background:rgba(239,68,68,.12)!important}
 
-input{
- width:90px;padding:6px;text-align:right;
- background:var(--bg);color:var(--txt);
- border:1px solid var(--border);border-radius:10px
-}
-input:disabled{opacity:.4}
+input{width:85px;padding:6px;text-align:right;background:var(--bg);color:var(--txt);border:1px solid var(--border);border-radius:8px;font-size:11px;transition:all .2s}
+input:focus{outline:none;box-shadow:0 0 0 3px rgba(56,189,248,.3)}
 
-.btn{
- padding:5px 9px;border-radius:10px;
- border:1px solid var(--border);
- background:linear-gradient(180deg,var(--card),var(--bg));
- color:var(--txt);font-size:11px;cursor:pointer;margin:2px
-}
-
-.paidCell{background:rgba(34,197,94,.25)}
-.pendingCell{background:rgba(245,158,11,.25)}
-.days-ok{color:var(--green)}
-.days-warn{color:var(--amber)}
-.days-over,.freeze-days{color:var(--red);font-weight:700}
-
-.donut{
- width:34px;height:34px;border-radius:50%;
- margin:auto;
- background:conic-gradient(
-  var(--green) 0deg,
-  var(--green) var(--a),
-  var(--amber) var(--a),
-  var(--amber) var(--b),
-  var(--blue) var(--b),
-  var(--blue) 360deg
- )
-}
-.mini{display:flex;height:8px;border-radius:6px;overflow:hidden;background:var(--bg)}
-.mini div:nth-child(1){background:var(--green)}
+.cell-paid{background:rgba(34,197,94,.15)}
+.cell-pending{background:rgba(245,158,11,.15)}
+.cell-overdue{background:rgba(239,68,68,.15)}
+.days-ok{color:var(--green);font-weight:600}
+.days-warn{color:var(--amber);font-weight:600}
+.days-overdue{color:var(--red);font-weight:700}
+.donut{width:30px;height:30px;border-radius:50%;margin:auto;background:conic-gradient(var(--green) 0deg,var(--green) var(--a),var(--amber) var(--a),var(--amber) var(--b),var(--blue) var(--b),var(--blue) 360deg)}
+.mini{display:flex;height:10px;border-radius:6px;overflow:hidden;background:var(--bg);margin:auto}
+.mini div:nth-child(1){background:var(--green);transition:width .3s}
 .mini div:nth-child(2){background:var(--amber)}
 
-footer{text-align:center;padding:14px;font-size:12px;opacity:.6}
+/* ===== FLOATING PANELS ===== */
+.floating-panel{position:fixed;top:110px;background:var(--panel);border-radius:16px;padding:20px;border:1px solid var(--border);box-shadow:0 25px 80px rgba(0,0,0,.5);z-index:200;font-size:12px;max-width:360px;display:none}
+#configPanel{right:20px}
+#exportPanel{left:20px}
+#summaryPanel{bottom:30px;right:30px;max-height:320px;overflow-y:auto;width:380px}
+.panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.panel-title{font-weight:700;font-size:14px}
+.panel-close{cursor:pointer;font-size:18px;color:var(--muted);padding:4px;transition:all .2s}
+.panel-close:hover{color:var(--red)}
+.config-row,.export-row{display:flex;gap:12px;align-items:center;margin:12px 0;flex-wrap:wrap}
 
-/* ===== CONFIG ===== */
-.config-panel{
- position:fixed;top:80px;right:20px;
- background:var(--panel);border-radius:12px;
- padding:12px;border:1px solid var(--border);
- box-shadow:0 10px 30px rgba(0,0,0,.3);
- z-index:100;font-size:11px;display:none
-}
+/* ===== NOTIFICATIONS ===== */
+.notification{position:fixed;top:30px;right:30px;background:var(--green);color:white;padding:16px 24px;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,.4);z-index:300;display:none;font-size:14px;font-weight:500;max-width:400px;border-left:4px solid white}
+.status-badge{padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600}
+.status-good{background:var(--green);color:white}
+.status-warning{background:var(--amber);color:white}
+.status-danger{background:var(--red);color:white}
+
+footer{text-align:center;padding:20px;font-size:12px;background:var(--panel);margin:0 -20px -20px -20px;border-radius:0 0 24px 24px;border-top:1px solid var(--border)}
+.footer-credit{font-size:11px;margin-top:8px;opacity:.8}
+
+/* ===== SUMMARY PANEL ENHANCED ===== */
+.summary-item{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)}
+.summary-item:last-child{border-bottom:none}
+.summary-label{font-weight:500}
+.summary-value{font-weight:700;font-size:14px}
+.summary-highlight{color:var(--green);font-size:16px}
 </style>
 </head>
 
 <body>
 
-<div class="bg-flight" id="bgFlight">
- <div class="logo"><div class="blue"></div><div class="white"></div><div class="dark"></div></div>
+<div class="seaport-logo">
+ <div class="logo-shape">
+  <div class="blue-part"></div>
+  <div class="white-part"></div>
+  <div class="dark-part"></div>
+ </div>
 </div>
 
 <header>
- <h3>SEAPORT (Air Division) – IATA CASS Payment Calendar</h3>
- <button class="theme-btn" onclick="toggleTheme()">🌙 / 🌞</button>
- <div class="watermark">FULL FEATURE – LocalStorage Edition</div>
+ <h3>SEAPORT AIR DIVISION – IATA CASS ENTERPRISE</h3>
+ <div class="header-right">
+  <div class="status-badge" id="globalStatus">Loading...</div>
+  <div class="version-badge">
+   Dev by Mcode 3.1<br>
+   <span style="font-size:10px">Founder Mubarak</span>
+  </div>
+  <button class="theme-btn" onclick="toggleTheme()">🌙 / 🌞</button>
+ </div>
 </header>
+
+<!-- AIRLINE MANAGER -->
+<div class="airline-manager">
+ <h4>Airline Manager <span id="airlineCount">(3 Airlines)</span></h4>
+ <div class="airline-controls">
+  <input id="newAirlineName" class="airline-input" placeholder="Airline Name" maxlength="15">
+  <input id="newAirlineCode" class="airline-input" placeholder="Code (2 letters)" maxlength="2" style="width:110px">
+  <button class="btn add-airline-btn" onclick="addAirline()">➕ Add</button>
+  <button class="btn" onclick="resetAirlines()">🔄 Reset</button>
+ </div>
+ <div class="airline-list" id="airlineList"></div>
+</div>
 
 <!-- DASHBOARD -->
 <div class="dashboard">
- <div class="card"><h4>Current Invoice</h4><p id="dInv">₹0</p><div class="wave"><span id="wInv"></span></div></div>
- <div class="card"><h4>Pending</h4><p id="dPend">₹0</p><div class="wave"><span id="wPend"></span></div></div>
- <div class="card"><h4>Remaining</h4><p id="dRem">₹0</p><div class="wave"><span id="wRem"></span></div></div>
- <div class="card"><h4>Total Borrowed</h4><p id="dBor">₹0</p><div class="wave"><span id="wBor"></span></div></div>
- <div class="card"><h4>AVL Balance</h4><p id="dAVL">₹0</p><div class="wave"><span id="wAVL"></span></div></div>
+ <div class="card"><h4>Current Period</h4><div class="card-value"><span id="dInv">₹0</span></div><div class="wave"><span id="wInv"></span></div></div>
+ <div class="card"><h4>Pending Amount</h4><div class="card-value"><span id="dPend">₹0</span></div><div class="wave"><span id="wPend"></span></div></div>
+ <div class="card"><h4>Remaining</h4><div class="card-value"><span id="dRem">₹0</span></div><div class="wave"><span id="wRem"></span></div></div>
+ <div class="card"><h4>Total Borrowed</h4><div class="card-value"><span id="dBor">₹0</span></div><div class="wave"><span id="wBor"></span></div></div>
+ <div class="card"><h4>AVL Balance</h4><div class="card-value"><span id="dAVL">₹0</span></div><div class="wave"><span id="wAVL"></span></div></div>
+ <div class="card"><h4>Overdue Amount</h4><div class="card-value"><span id="dOver">₹0</span></div><div class="wave"><span id="wOver"></span></div></div>
 </div>
 
-<div class="filter-bar">
+<!-- CONTROL BAR -->
+<div class="control-bar">
  <select id="periodFilter" onchange="applyFilter()">
-  <option value="ALL">All Periods</option>
+  <option value="ALL">All Periods (28)</option>
  </select>
+ <input type="search" id="searchInput" placeholder="Search periods/invoices..." oninput="applySearch()">
+ <input type="date" id="customDate" onchange="setCustomDate(this.value)">
+ <button class="btn" onclick="toggleExportPanel()">📊 Export</button>
+ <button class="btn btn-success" onclick="bulkMarkPaid()">✓ Bulk Paid</button>
+ <button class="btn btn-warning" onclick="showSummary()">📈 Summary</button>
+ <button class="btn btn-danger" onclick="confirmReset()">🗑️ Reset All</button>
 </div>
 
 <div class="container">
-<div class="table-wrap">
-<table>
-<thead>
-<tr>
-<th>Period</th><th>Invoice</th><th>Remittance</th><th>Days</th>
-<th>Srilankan</th><th>Status</th>
-<th>AirIndia</th><th>Status</th>
-<th>Singapore</th><th>Status</th>
-<th>Total</th><th>Paid</th>
-<th>AVL</th><th>Borrowed</th>
-<th>Remaining</th><th>Split</th><th>Progress</th>
-</tr>
-</thead>
-<tbody id="tbody"></tbody>
-</table>
-</div>
+ <div class="table-wrap">
+  <table id="mainTable">
+   <thead id="tableHead">
+    <tr>
+     <th>Period</th><th>Invoice</th><th>Remittance</th><th>Days</th>
+    </tr>
+   </thead>
+   <tbody id="tbody"></tbody>
+  </table>
+ </div>
 </div>
 
-<div class="config-panel" id="configPanel">
- Freeze Days:
- <input id="freezeDays" type="number" value="2" min="0" onchange="saveConfig()">
- <button class="btn" onclick="toggleConfig()">✕</button>
+<!-- CONFIG PANEL -->
+<div class="floating-panel" id="configPanel">
+ <div class="panel-header">
+  <div class="panel-title">⚙️ Configuration</div>
+  <span class="panel-close" onclick="toggleConfig()">✕</span>
+ </div>
+ <div class="config-row">
+  <label>Freeze Days:</label>
+  <input id="freezeDays" type="number" value="2" min="0" onchange="saveConfig()">
+ </div>
+ <div class="config-row">
+  <button class="btn btn-success" onclick="backupData()" style="flex:1">💾 Backup Data</button>
+ </div>
 </div>
 
-<footer>Ctrl + C → Freeze Configuration Panel</footer>
+<!-- EXPORT PANEL -->
+<div class="floating-panel" id="exportPanel">
+ <div class="panel-header">
+  <div class="panel-title">📊 Export Data</div>
+  <span class="panel-close" onclick="toggleExportPanel()">✕</span>
+ </div>
+ <div class="export-row">
+  <button class="btn" onclick="exportCSV()" style="flex:1">📄 CSV Export</button>
+  <button class="btn" onclick="exportJSON()" style="flex:1">📋 JSON Export</button>
+ </div>
+ <div class="export-row">
+  <button class="btn" onclick="copyTable()" style="flex:1">📋 Copy Table</button>
+ </div>
+</div>
+
+<!-- SUMMARY PANEL -->
+<div class="floating-panel" id="summaryPanel">
+ <div class="panel-header">
+  <div class="panel-title">📈 Payment Summary</div>
+  <span class="panel-close" onclick="hideSummary()">✕</span>
+ </div>
+ <div id="summaryContent">
+  <div class="summary-item">
+   <span class="summary-label">Total Invoice Amount:</span>
+   <span class="summary-value summary-highlight" id="sumTotalInv">₹0</span>
+  </div>
+  <div class="summary-item">
+   <span class="summary-label">Total Paid Amount:</span>
+   <span class="summary-value summary-highlight" id="sumTotalPaid">₹0</span>
+  </div>
+  <div class="summary-item">
+   <span class="summary-label">Collection Rate:</span>
+   <span class="summary-value" id="sumCollectionRate">0%</span>
+  </div>
+  <div class="summary-item">
+   <span class="summary-label">Total Remaining:</span>
+   <span class="summary-value" style="color:var(--red)" id="sumTotalRem">₹0</span>
+  </div>
+  <div class="summary-item">
+   <span class="summary-label">Overdue Periods:</span>
+   <span class="summary-value" style="color:var(--red)" id="sumOverdueCount">0</span>
+  </div>
+  <div class="summary-item">
+   <span class="summary-label">Total Borrowed:</span>
+   <span class="summary-value" id="sumTotalBor">₹0</span>
+  </div>
+ </div>
+</div>
+
+<div class="notification" id="notification"></div>
+
+<footer>
+ Airlines: <strong><span id="airlineCountFooter">3</span></strong> | 
+ Periods: <strong><span id="periodCount">28</span></strong> | 
+ Ctrl+C=Config | Ctrl+E=Export | Ctrl+S=Summary
+ <div class="footer-credit">
+  Dev by Mcode 3.1 | Founder Mubarak © 2026
+ </div>
+</footer>
 
 <script>
-/* ================= GLOBAL ================= */
-const STORAGE_KEY="SEAPORT_CASS_DATA";
-let store={},today=new Date(),ci=-1;
-let config={freezeDays:2};
+/* ================= GLOBAL STATE ================= */
+const STORAGE_KEY="SEAPORT_CASS_V3_1",AIRLINE_KEY="SEAPORT_AIRLINES";
+let store={},today=new Date(),ci=-1,airlines=['SL','AI','SG'],airlineNames={'SL':'Srilankan','AI':'AirIndia','SG':'Singapore'};
+let config={freezeDays:2,autoSave:true,customDate:null};
 
 /* ================= UTILS ================= */
-const inr=x=>"₹"+(x||0).toLocaleString("en-IN");
-function fnLabel(c){
- const y=c.slice(0,4),m=c.slice(4,6),f=c[6];
- const mn=["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
- return `${mn[+m]} ${y} – ${f==="1"?"1st":"2nd"} FN`;
-}
+const inr=x=>"₹"+(x||0).toLocaleString("en-IN"),pct=(a,b)=>b?(a/b*100).toFixed(1)+"%":"0%";
+function fnLabel(c){const y=c.slice(0,4),m=c.slice(4,6),f=c[6];const mn=["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];return`${mn[+m]} ${y} – ${f==="1"?"1st":"2nd"} FN`;}
+function showNotification(msg,type="success",duration=3000){const notif=document.getElementById("notification");notif.textContent=msg;notif.style.background=type==="success"?`var(--green)`:type==="warning"?`var(--amber)`:`var(--red)`;notif.style.display="block";setTimeout(()=>notif.style.display="none",duration);}
+function calcDays(remDate){return Math.ceil((new Date(remDate)-(config.customDate?new Date(config.customDate):today))/86400000);}
+function calcRemaining(period){const d=store[period]||{},totalInv=airlines.reduce((sum,code)=>sum+(+d[code]||0),0),totalPaid=airlines.reduce((sum,code)=>sum+(d[code+'p']?(+d[code]||0):0),0);return totalInv-totalPaid-(+d.avl||0);}
 
-/* ================= CONFIG ================= */
-function loadConfig(){
- if(localStorage.config) config=JSON.parse(localStorage.config);
- freezeDays.value=config.freezeDays;
-}
-function saveConfig(){
- config.freezeDays=+freezeDays.value||2;
- localStorage.config=JSON.stringify(config);
- renderTable();
-}
-function toggleConfig(){
- configPanel.style.display=configPanel.style.display?"":"block";
-}
+/* ================= AIRLINE MANAGEMENT ================= */
+function loadAirlines(){const saved=localStorage.getItem(AIRLINE_KEY);if(saved){const data=JSON.parse(saved);airlines=data.airlines;airlineNames=data.names;}renderAirlineList();updateAirlineUI();}
+function saveAirlines(){localStorage.setItem(AIRLINE_KEY,JSON.stringify({airlines,airlineNames}));renderTable();}
+function renderAirlineList(){const list=document.getElementById('airlineList');list.innerHTML='';airlines.forEach((code,i)=>{const item=document.createElement('div');item.className='airline-item';item.innerHTML=`<span>${airlineNames[code]} (${code})</span><span class="airline-delete" onclick="deleteAirline(${i})" title="Delete Airline">×</span>`;list.appendChild(item);});}
+function addAirline(){const name=document.getElementById('newAirlineName').value.trim(),code=document.getElementById('newAirlineCode').value.trim().toUpperCase();if(!name||!code||code.length!==2||airlines.includes(code)){showNotification("Invalid code or duplicate", "danger");return;}airlines.push(code);airlineNames[code]=name;document.getElementById('newAirlineName').value='';document.getElementById('newAirlineCode').value='';saveAirlines();showNotification(`${name} (${code}) added`, "success");}
+function deleteAirline(index){if(airlines.length<=1){showNotification("Must keep at least 1 airline", "danger");return;}if(confirm(`Delete ${airlineNames[airlines[index]]} (${airlines[index]})?`)){airlines.splice(index,1);delete airlineNames[airlines[index]];saveAirlines();showNotification("Airline deleted", "warning");}}
+function resetAirlines(){if(confirm("Reset to default airlines?")){airlines=['SL','AI','SG'];airlineNames={'SL':'Srilankan','AI':'AirIndia','SG':'Singapore'};saveAirlines();showNotification("Default airlines restored", "success");}}
+function updateAirlineUI(){document.getElementById('airlineCount').textContent=`(${airlines.length} Airlines)`;document.getElementById('airlineCountFooter').textContent=airlines.length;}
 
-/* ================= THEME ================= */
-if(localStorage.theme==="light")document.body.classList.add("light");
-function toggleTheme(){
- document.body.classList.toggle("light");
- localStorage.theme=document.body.classList.contains("light")?"light":"dark";
-}
+/* ================= TABLE OPERATIONS ================= */
+function renderTableHeader(){const thead=document.getElementById('tableHead'),existingRows=thead.querySelectorAll('tr');existingRows.forEach(row=>row.remove());const headerRow=document.createElement('tr');headerRow.innerHTML='<th>Period</th><th>Invoice</th><th>Remittance</th><th>Days</th>';airlines.forEach(code=>{const th1=document.createElement('th');th1.innerHTML=`${airlineNames[code]}<br><small style="font-size:9px;opacity:.7">${code}</small>`;headerRow.appendChild(th1);const th2=document.createElement('th');th2.textContent='Status';headerRow.appendChild(th2);});headerRow.innerHTML+='<th>Total</th><th>Paid</th><th>AVL</th><th>Borrowed</th><th>Remaining</th><th>Split</th><th>Progress</th>';thead.appendChild(headerRow);}
 
-/* ================= STORAGE ================= */
-function loadData(){
- store=localStorage.getItem(STORAGE_KEY)?
- JSON.parse(localStorage.getItem(STORAGE_KEY)):{};
- renderTable();
-}
-function saveData(){
- localStorage.setItem(STORAGE_KEY,JSON.stringify(store));
-}
+function renderTable(){tbody.innerHTML="";periodFilter.innerHTML='<option value="ALL">All Periods (28)</option>';ci=periods.findIndex(p=>calcDays(p[2])>=0);renderTableHeader();periods.forEach((p,i)=>{const d=store[p[0]]||{},days=calcDays(p[2]),isOverdue=days<0,totalInv=airlines.reduce((sum,code)=>sum+(+d[code]||0),0),totalPaid=airlines.reduce((sum,code)=>sum+(d[code+'p']?(+d[code]||0):0),0),rem=totalInv-totalPaid-(+d.avl||0);const tr=document.createElement("tr");tr.dataset.period=p[0];tr.className=isOverdue?"overdue":i<ci?"freeze":i===ci?"current":i===ci+1?"next":"";let rowHTML=`<td>${fnLabel(p[0])}</td><td>${p[1]}</td><td>${p[2]}</td><td class="${days<0?"days-overdue":days<15?"days-warn":i<ci?"days-overdue":"days-ok"}">${days}</td>`;airlines.forEach(code=>{const amount=+d[code]||0,status=d[code+'p'];rowHTML+=`<td class="${status?"cell-paid":"cell-pending"}"><input value="${amount}" onchange="saveValue('${p[0]}','${code}',this.value)"></td><td><button class="btn ${status?'btn-success':'btn-warning'}" onclick="togglePaid('${p[0]}','${code}p',1)">PAID</button><button class="btn ${!status?'btn-success':'btn-warning'}" onclick="togglePaid('${p[0]}','${code}p',0)">PENDING</button></td>`;});rowHTML+=`<td>${inr(totalInv)}</td><td>${inr(totalPaid)}</td><td><input value="${d.avl||0}" onchange="saveValue('${p[0]}','avl',this.value)"></td><td><input value="${d.bor||0}" onchange="saveValue('${p[0]}','bor',this.value)"></td><td class="${isOverdue?'cell-overdue':''}"><strong>${inr(rem)}</strong></td><td><div class="donut" style="--a:120deg;--b:240deg"></div></td><td><div class="mini"><div style="width:${totalInv?totalPaid/totalInv*100:0}%"></div><div style="width:${totalInv?rem/totalInv*100:0}%"></div></td>`;tr.innerHTML=rowHTML;tbody.appendChild(tr);const o=document.createElement("option");o.value=p[0];o.text=fnLabel(p[0]);periodFilter.appendChild(o);});updateDashboard();document.getElementById('periodCount').textContent=periods.length;updateStatus();updateSummary();}
 
-/* ================= CORE ================= */
-function renderTable(){
- tbody.innerHTML="";
- periodFilter.innerHTML='<option value="ALL">All Periods</option>';
- ci=periods.findIndex(p=>new Date(p[2])>=today);
+function saveValue(period,field,value){store[period]=store[period]||{};store[period][field]=+value.replace(/\D/g,"")||0;localStorage.setItem(STORAGE_KEY,JSON.stringify(store));renderTable();}
+function togglePaid(period,field,value){store[period]=store[period]||{};store[period][field]=value;localStorage.setItem(STORAGE_KEY,JSON.stringify(store));renderTable();showNotification(value?"Marked PAID":"Marked PENDING");}
 
- periods.forEach((p,i)=>{
-  const d=store[p[0]]||{};
-  const sl=+d.sl||0,ai=+d.ai||0,sg=+d.sg||0;
-  const slp=d.slp,aip=d.aip,sgp=d.sgp;
-  const avl=+d.avl||0,bor=+d.bor||0;
-  const inv=sl+ai+sg;
-  const paid=(slp?sl:0)+(aip?ai:0)+(sgp?sg:0);
-  const rem=inv-paid-avl;
-  const days=Math.ceil((new Date(p[2])-today)/86400000);
-
-  const a=inv?sl/inv*360:0;
-  const b=inv?(sl+ai)/inv*360:0;
-
-  const tr=document.createElement("tr");
-  tr.dataset.period=p[0];
-  tr.className=i<ci?"freeze":i===ci?"current":i===ci+1?"next":"freeze";
-
-  tr.innerHTML=`
-  <td>${fnLabel(p[0])}</td>
-  <td>${p[1]}</td>
-  <td>${p[2]}</td>
-  <td class="${days<0?"days-over":days<15?"days-warn":"days-ok"}">${days}</td>
-
-  <td class="${slp?"paidCell":"pendingCell"}"><input value="${sl}" onchange="saveValue('${p[0]}','sl',this.value)"></td>
-  <td><button class="btn" onclick="togglePaid('${p[0]}','slp',1)">Paid</button><button class="btn" onclick="togglePaid('${p[0]}','slp',0)">Pending</button></td>
-
-  <td class="${aip?"paidCell":"pendingCell"}"><input value="${ai}" onchange="saveValue('${p[0]}','ai',this.value)"></td>
-  <td><button class="btn" onclick="togglePaid('${p[0]}','aip',1)">Paid</button><button class="btn" onclick="togglePaid('${p[0]}','aip',0)">Pending</button></td>
-
-  <td class="${sgp?"paidCell":"pendingCell"}"><input value="${sg}" onchange="saveValue('${p[0]}','sg',this.value)"></td>
-  <td><button class="btn" onclick="togglePaid('${p[0]}','sgp',1)">Paid</button><button class="btn" onclick="togglePaid('${p[0]}','sgp',0)">Pending</button></td>
-
-  <td>${inr(inv)}</td>
-  <td>${inr(paid)}</td>
-  <td><input value="${avl}" onchange="saveValue('${p[0]}','avl',this.value)"></td>
-  <td><input value="${bor}" onchange="saveValue('${p[0]}','bor',this.value)"></td>
-  <td>${inr(rem)}</td>
-
-  <td><div class="donut" style="--a:${a}deg;--b:${b}deg"></div></td>
-  <td><div class="mini"><div style="width:${inv?paid/inv*100:0}%"></div><div style="width:${inv?rem/inv*100:0}%"></div></div></td>
-  `;
-  tbody.appendChild(tr);
-
-  const o=document.createElement("option");
-  o.value=p[0];o.text=fnLabel(p[0]);
-  periodFilter.appendChild(o);
- });
- updateDashboard();
-}
-
-/* ================= DASHBOARD ================= */
-function updateDashboard(){
- let inv=0,pend=0,rem=0,bor=0,avl=0;
- periods.forEach((p,i)=>{
-  const d=store[p[0]]||{};
-  bor+=+d.bor||0;
-  if(i===ci){
-   const sl=+d.sl||0,ai=+d.ai||0,sg=+d.sg||0;
-   const paid=(d.slp?sl:0)+(d.aip?ai:0)+(d.sgp?sg:0);
-   inv=sl+ai+sg;
-   pend=inv-paid;
-   avl=+d.avl||0;
-   rem=inv-paid-avl;
-  }
- });
- dInv.textContent=inr(inv);
- dPend.textContent=inr(pend);
- dRem.textContent=inr(rem);
- dBor.textContent=inr(bor);
- dAVL.textContent=inr(avl);
- w("wInv",inv,inv);w("wPend",pend,inv);w("wRem",rem,inv);w("wBor",bor,bor);w("wAVL",avl,inv);
-}
+function updateDashboard(){let inv=0,pend=0,rem=0,bor=0,avl=0,over=0;periods.forEach((p,i)=>{const d=store[p[0]]||{};if(i===ci){const totalInv=airlines.reduce((sum,code)=>sum+(+d[code]||0),0),totalPaid=airlines.reduce((sum,code)=>sum+(d[code+'p']?(+d[code]||0):0),0);inv=totalInv;pend=totalInv-totalPaid;avl=+d.avl||0;rem=totalInv-totalPaid-avl;}bor+=+d.bor||0;if(calcDays(p[2])<0&&calcRemaining(p[0])>0)over+=calcRemaining(p[0]);});document.getElementById('dInv').textContent=inr(inv);document.getElementById('dPend').textContent=inr(pend);document.getElementById('dRem').textContent=inr(rem);document.getElementById('dBor').textContent=inr(bor);document.getElementById('dAVL').textContent=inr(avl);document.getElementById('dOver').textContent=inr(over);w("wInv",inv,inv);w("wPend",pend,inv);w("wRem",rem,inv);w("wBor",bor,bor);w("wAVL",avl,inv);w("wOver",over,inv);}
 function w(id,v,m){document.getElementById(id).style.width=(m?Math.min(100,v/m*100):0)+"%"}
 
-/* ================= SAVE ================= */
-function saveValue(c,f,v){
- store[c]=store[c]||{};
- store[c][f]=+v.replace(/\D/g,"")||0;
- saveData();renderTable();
-}
-function togglePaid(c,f,v){
- store[c]=store[c]||{};
- store[c][f]=v;
- saveData();renderTable();
-}
-function applyFilter(){
- const v=periodFilter.value;
- [...tbody.children].forEach(r=>r.style.display=v==="ALL"||r.dataset.period===v?"":"none");
-}
+function updateStatus(){const totalInv=periods.reduce((sum,p)=>{const d=store[p[0]]||{};return sum+airlines.reduce((s,code)=>s+(+d[code]||0),0);},0),totalPaid=periods.reduce((sum,p)=>{const d=store[p[0]]||{};return sum+airlines.reduce((s,code)=>s+(d[code+'p']?(+d[code]||0):0),0);},0);const rate=totalInv?totalPaid/totalInv:0;document.getElementById('globalStatus').className=`status-badge ${rate>0.8?'status-good':rate>0.5?'status-warning':'status-danger'}`;document.getElementById('globalStatus').textContent=`${pct(totalPaid,totalInv)}`;}
 
-/* ================= FULL PERIOD LIST ================= */
-const periods=[
-["20251102F","2025-12-09","2025-12-30"],
-["20251201F","2025-12-25","2026-01-14"],
-["20251202F","2026-01-08","2026-01-30"],
-["20260101F","2026-01-25","2026-02-16"],
-["20260102F","2026-02-07","2026-03-02"],
-["20260201F","2026-02-24","2026-03-17"],
-["20260202F","2026-03-07","2026-03-30"],
-["20260301F","2026-03-25","2026-04-14"],
-["20260302F","2026-04-09","2026-04-30"],
-["20260401F","2026-04-25","2026-05-15"],
-["20260402F","2026-05-07","2026-06-01"],
-["20260501F","2026-05-27","2026-06-15"],
-["20260502F","2026-06-09","2026-06-30"],
-["20260601F","2026-06-25","2026-07-15"],
-["20260602F","2026-07-09","2026-07-30"],
-["20260701F","2026-07-25","2026-08-14"],
-["20260702F","2026-08-07","2026-08-31"],
-["20260801F","2026-08-26","2026-09-14"],
-["20260802F","2026-09-09","2026-09-30"],
-["20260901F","2026-09-24","2026-10-15"],
-["20260902F","2026-10-08","2026-10-30"],
-["20261001F","2026-10-25","2026-11-16"],
-["20261002F","2026-11-07","2026-11-30"],
-["20261101F","2026-11-25","2026-12-15"],
-["20261102F","2026-12-09","2026-12-30"],
-["20261201F","2026-12-24","2027-01-14"],
-["20261202F","2027-01-07","2027-02-01"]
-];
+function updateSummary(){const totalInv=0,totalPaid=0,totalRem=0,totalBor=0,overdueCount=0;periods.forEach(p=>{const d=store[p[0]]||{},inv=airlines.reduce((sum,code)=>sum+(+d[code]||0),0),paid=airlines.reduce((sum,code)=>sum+(d[code+'p']?(+d[code]||0):0),0),rem=inv-paid-(+d.avl||0);totalInv+=inv;totalPaid+=paid;totalRem+=rem;totalBor+=+d.bor||0;if(calcDays(p[2])<0&&rem>0)overdueCount++;});document.getElementById('sumTotalInv').textContent=inr(totalInv);document.getElementById('sumTotalPaid').textContent=inr(totalPaid);document.getElementById('sumCollectionRate').textContent=pct(totalPaid,totalInv);document.getElementById('sumTotalRem').textContent=inr(totalRem);document.getElementById('sumOverdueCount').textContent=overdueCount;document.getElementById('sumTotalBor').textContent=inr(totalBor);}
 
-/* ================= PLANE ================= */
-let x=-30,y=30;
-(function fly(){
- x+=25;y+=Math.random()*6-3;
- if(x>120){x=-30;y=Math.random()*60}
- bgFlight.style.left=x+"vw";
- bgFlight.style.top=y+"vh";
- bgFlight.style.transform=`rotate(${Math.random()*12-6}deg)`;
- setTimeout(fly,5000);
-})();
+function loadConfig(){if(localStorage.config)config=JSON.parse(localStorage.config);document.getElementById("freezeDays").value=config.freezeDays||2;document.getElementById("customDate").value=config.customDate||'';}
+function saveConfig(){config.freezeDays=+document.getElementById("freezeDays").value||2;config.customDate=document.getElementById("customDate").value;localStorage.config=JSON.stringify(config);renderTable();}
+function setCustomDate(date){config.customDate=date;today=new Date(date||Date.now());renderTable();}
+function loadData(){store=localStorage.getItem(STORAGE_KEY)?JSON.parse(localStorage.getItem(STORAGE_KEY)):{};}
 
-/* ================= INIT ================= */
-loadConfig();
-loadData();
-document.addEventListener("keydown",e=>{
- if(e.ctrlKey&&e.key==="c")toggleConfig();
-});
+let searchTerm="";function applySearch(){searchTerm=searchInput.value.toLowerCase();applyFilter();}
+function applyFilter(){const v=periodFilter.value;[...tbody.children].forEach(r=>{const period=r.dataset.period,matchesSearch=searchTerm===""||period.toLowerCase().includes(searchTerm)||fnLabel(period).toLowerCase().includes(searchTerm),matchesFilter=v==="ALL"||period===v;r.style.display=(matchesSearch&&matchesFilter)?"":"none";});}
+
+function bulkMarkPaid(){const visibleRows=[...tbody.querySelectorAll('tr:not(.freeze):not(.current)')].filter(tr=>tr.style.display!=="none");if(visibleRows.length===0){showNotification("No periods available");return;}if(!confirm(`Mark ${visibleRows.length} periods PAID for all airlines?`))return;visibleRows.forEach(tr=>{const period=tr.dataset.period;airlines.forEach(code=>{store[period]=store[period]||{};store[period][code+'p']=1;});});localStorage.setItem(STORAGE_KEY,JSON.stringify(store));renderTable();showNotification(`${visibleRows.length} periods marked PAID`);}
+function confirmReset(){if(confirm("Delete ALL data?")){localStorage.removeItem(STORAGE_KEY);store={};renderTable();showNotification("All data reset");}}
+function backupData(){localStorage.setItem(STORAGE_KEY+"_backup",JSON.stringify({...store,timestamp:new Date().toISOString()}));showNotification("Backup saved");}
+
+function exportCSV(){let csv="Period,Invoice,Remittance,Days";airlines.forEach(code=>csv+=`,${code},${code}_Status`);csv+=",Total,Paid,AVL,Borrowed,Remaining\n";periods.forEach(p=>{const d=store[p[0]]||{};csv+=`${p[0]},"${p[1]}","${p[2]}",${calcDays(p[2])}${airlines.map(code=>`,${d[code]||0},"${d[code+'p']?'PAID':'PENDING'}"`).join('')},${airlines.reduce((sum,code)=>sum+(+d[code]||0),0)},${airlines.reduce((sum,code)=>sum+(d[code+'p']?(+d[code]||0):0),0)},${d.avl||0},${d.bor||0},${calcRemaining(p[0])}\n`;});const blob=new Blob([csv],{type:'text/csv'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='cass-payments.csv';a.click();URL.revokeObjectURL(url);showNotification("CSV exported successfully");}
+function exportJSON(){const data={airlines,periods:periods.map(p=>({period:p[0],data:store[p[0]]||{}})),timestamp:new Date().toISOString()};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='cass-payments.json';a.click();URL.revokeObjectURL(url);showNotification("JSON exported successfully");}
+function copyTable(){let text="SEAPORT CASS Summary\n\n";periods.slice(0,10).forEach(p=>{text+=`${fnLabel(p[0])}: ${inr(calcRemaining(p[0]))} (${calcDays(p[2])} days)\n`;});navigator.clipboard.writeText(text).then(()=>showNotification("Table copied to clipboard"));}
+
+function toggleConfig(){document.getElementById('configPanel').style.display=document.getElementById('configPanel').style.display?"none":"block";}
+function toggleExportPanel(){document.getElementById('exportPanel').style.display=document.getElementById('exportPanel').style.display?"none":"block";}
+function showSummary(){updateSummary();document.getElementById('summaryPanel').style.display="block";}
+function hideSummary(){document.getElementById('summaryPanel').style.display="none";}
+
+if(localStorage.theme==="light")document.body.classList.add("light");
+function toggleTheme(){document.body.classList.toggle("light");localStorage.theme=document.body.classList.contains("light")?"light":"dark";}
+
+const periods=[["20251102F","2025-12-09","2025-12-30"],["20251201F","2025-12-25","2026-01-14"],["20251202F","2026-01-08","2026-01-30"],["20260101F","2026-01-25","2026-02-16"],["20260102F","2026-02-07","2026-03-02"],["20260201F","2026-02-24","2026-03-17"],["20260202F","2026-03-07","2026-03-30"],["20260301F","2026-03-25","2026-04-14"],["20260302F","2026-04-09","2026-04-30"],["20260401F","2026-04-25","2026-05-15"],["20260402F","2026-05-07","2026-06-01"],["20260501F","2026-05-27","2026-06-15"],["20260502F","2026-06-09","2026-06-30"],["20260601F","2026-06-25","2026-07-15"],["20260602F","2026-07-09","2026-07-30"],["20260701F","2026-07-25","2026-08-14"],["20260702F","2026-08-07","2026-08-31"],["20260801F","2026-08-26","2026-09-14"],["20260802F","2026-09-09","2026-09-30"],["20260901F","2026-09-24","2026-10-15"],["20260902F","2026-10-08","2026-10-30"],["20261001F","2026-10-25","2026-11-16"],["20261002F","2026-11-07","2026-11-30"],["20261101F","2026-11-25","2026-12-15"],["20261102F","2026-12-09","2026-12-30"],["20261201F","2026-12-24","2027-01-14"],["20261202F","2027-01-07","2027-02-01"]];
+
+loadConfig();loadData();renderTable();
 </script>
 
 </body>
