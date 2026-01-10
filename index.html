@@ -5,153 +5,163 @@
 <title>SEAPORT AIR DIV – CASS PAYMENT DETAILS</title>
 
 <style>
-/* ===== Flying Logo (NO rectangle) ===== */
-.bg-flight {
-    position: fixed;
-    width: 260px;
-    height: 110px;
-    opacity: 0.14;
-    pointer-events: none;
-    z-index: 0;
-    clip-path: polygon(
-     5% 50%, 15% 35%, 40% 30%, 
-     70% 20%, 95% 50%, 
-     70% 80%, 40% 70%, 15% 65%
- );
-    transition: transform 5s linear, top 5s linear, left 5s linear;
+/* ===== Flying Logo ===== */
+.bg-flight{
+ position:fixed;width:260px;height:110px;opacity:.14;
+ pointer-events:none;z-index:0;
+ clip-path:polygon(5% 50%,15% 35%,40% 30%,70% 20%,95% 50%,70% 80%,40% 70%,15% 65%);
+ transition:transform 5s linear,top 5s linear,left 5s linear
 }
-.logo { width: 100%; height: 100%; position: relative; }
-.blue { position: absolute; width: 55%; height: 100%; background: #0a4fd6; clip-path: polygon(0 10%, 85% 0, 45% 100%, 0 90%); }
-.white { position: absolute; width: 70%; height: 100%; left: 30%; background: white; clip-path: polygon(20% 0, 60% 0, 40% 50%, 60% 100%, 20% 100%, 40% 50%); }
-.dark { position: absolute; width: 55%; height: 100%; right: 0; background: #2f2f2f; clip-path: polygon(15% 0, 100% 50%, 15% 100%); }
+.logo{width:100%;height:100%;position:relative}
+.blue{position:absolute;width:55%;height:100%;background:#0a4fd6;clip-path:polygon(0 10%,85% 0,45% 100%,0 90%)}
+.white{position:absolute;width:70%;height:100%;left:30%;background:#fff;clip-path:polygon(20% 0,60% 0,40% 50%,60% 100%,20% 100%,40% 50%)}
+.dark{position:absolute;width:55%;height:100%;right:0;background:#2f2f2f;clip-path:polygon(15% 0,100% 50%,15% 100%)}
 
-/* ================= THEME ================= */
+/* ===== THEME ===== */
 :root{
  --bg:#020617;--panel:#020617;--card:#0b1220;--border:#1f2937;
  --txt:#e5e7eb;--muted:#9ca3af;
  --green:#22c55e;--amber:#f59e0b;--red:#ef4444;
  --blue:#38bdf8;--purple:#a78bfa;
- --current:#1e3a8a;--next:#0f766e;
+ --current:#1e3a8a;--next:#0f766e
 }
 .light{
- --bg:#f8fafc;--panel:#ffffff;--card:#ffffff;--border:#e5e7eb;
+ --bg:#f8fafc;--panel:#fff;--card:#fff;--border:#e5e7eb;
  --txt:#020617;--muted:#475569;
- --current:#eef2ff;--next:#ecfeff;
+ --current:#eef2ff;--next:#ecfeff
 }
 
 *{box-sizing:border-box}
 body{
  margin:0;font-family:system-ui,Segoe UI,Arial;
  background:radial-gradient(circle at top,var(--card),var(--bg) 70%);
- color:var(--txt);
+ color:var(--txt)
 }
 
-/* ================= HEADER ================= */
+/* ===== HEADER ===== */
 header{
  display:flex;align-items:center;gap:12px;
  padding:16px 22px;background:var(--panel);
  box-shadow:0 20px 60px rgba(0,0,0,.4);
- position:sticky;top:0;z-index:10;
+ position:sticky;top:0;z-index:10
 }
-header h3{margin:0;font-size:20px;font-weight:700}
+header h3{margin:0;font-size:20px}
 .theme-btn{
  margin-left:auto;padding:6px 12px;border-radius:14px;
- border:1px solid var(--border);background:var(--card);
- color:var(--txt);cursor:pointer;font-size:12px;
+ border:1px solid var(--border);
+ background:var(--card);color:var(--txt);cursor:pointer
 }
-.watermark{margin-left:10px;font-size:12px;opacity:.6}
+.watermark{font-size:12px;opacity:.6}
 
-/* ================= DASHBOARD ================= */
+/* ===== DASHBOARD ===== */
 .dashboard{
  padding:20px;
  display:grid;
  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
- gap:16px;
+ gap:16px
 }
 .card{
  background:linear-gradient(180deg,var(--card),var(--bg));
- border-radius:18px;
- padding:16px;
- box-shadow:0 25px 70px rgba(0,0,0,.45);
+ border-radius:18px;padding:16px;
+ box-shadow:0 25px 70px rgba(0,0,0,.45)
 }
-.card h4{margin:0;font-size:12px;color:var(--muted);text-transform:uppercase}
+.card h4{margin:0;font-size:12px;color:var(--muted)}
 .card p{margin:6px 0;font-size:24px;font-weight:700}
 .wave{height:8px;border-radius:20px;background:var(--bg);overflow:hidden}
-.wave span{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width 1s ease}
+.wave span{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--purple))}
 
-/* ================= FILTER ================= */
+/* ===== FILTER ===== */
 .filter-bar{padding:0 20px 10px}
-select{padding:6px 10px;border-radius:10px;background:var(--card);color:var(--txt);border:1px solid var(--border);}
+select{
+ padding:6px 10px;border-radius:10px;
+ background:var(--card);color:var(--txt);
+ border:1px solid var(--border)
+}
 
-/* ================= TABLE ================= */
+/* ===== TABLE ===== */
 .container{padding:0 20px 30px}
-.table-wrap{background:var(--panel);border-radius:22px;box-shadow:0 40px 120px rgba(0,0,0,.5);overflow:auto;}
+.table-wrap{
+ background:var(--panel);border-radius:22px;
+ box-shadow:0 40px 120px rgba(0,0,0,.5);
+ overflow:auto
+}
 table{width:100%;border-collapse:collapse;font-size:12px}
-th{padding:12px;background:var(--panel);border-bottom:1px solid var(--border);text-transform:uppercase;}
-td{padding:10px;border-bottom:1px solid var(--bg);text-align:center;}
+th{
+ padding:12px;background:var(--panel);
+ border-bottom:1px solid var(--border);
+ text-transform:uppercase
+}
+td{padding:10px;border-bottom:1px solid var(--bg);text-align:center}
 tr.freeze{opacity:.45}
 tr.current{background:var(--current)}
 tr.next{background:var(--next)}
 
-input{width:90px;padding:6px;text-align:right;background:var(--bg);color:var(--txt);border:1px solid var(--border);border-radius:10px;}
+input{
+ width:90px;padding:6px;text-align:right;
+ background:var(--bg);color:var(--txt);
+ border:1px solid var(--border);border-radius:10px
+}
 input:disabled{opacity:.4}
 
-.btn{padding:5px 9px;border-radius:10px;border:1px solid var(--border);background:linear-gradient(180deg,var(--card),var(--bg));color:var(--txt);font-size:11px;cursor:pointer;margin:2px;}
+.btn{
+ padding:5px 9px;border-radius:10px;
+ border:1px solid var(--border);
+ background:linear-gradient(180deg,var(--card),var(--bg));
+ color:var(--txt);font-size:11px;cursor:pointer;margin:2px
+}
 
 .paidCell{background:rgba(34,197,94,.25)}
 .pendingCell{background:rgba(245,158,11,.25)}
-
 .days-ok{color:var(--green)}
 .days-warn{color:var(--amber)}
-.days-over{color:var(--red)}
-.freeze-days{color:var(--red);font-weight:700}
+.days-over,.freeze-days{color:var(--red);font-weight:700}
 
-/* MINI DONUT */
-.donut{width:34px;height:34px;border-radius:50%;margin:auto;background:conic-gradient(var(--green) 0deg,var(--green) var(--a),var(--amber) var(--a),var(--amber) var(--b),var(--blue) var(--b),var(--blue) 360deg);}
-
-/* MINI BAR */
+.donut{
+ width:34px;height:34px;border-radius:50%;
+ margin:auto;
+ background:conic-gradient(
+  var(--green) 0deg,
+  var(--green) var(--a),
+  var(--amber) var(--a),
+  var(--amber) var(--b),
+  var(--blue) var(--b),
+  var(--blue) 360deg
+ )
+}
 .mini{display:flex;height:8px;border-radius:6px;overflow:hidden;background:var(--bg)}
 .mini div:nth-child(1){background:var(--green)}
 .mini div:nth-child(2){background:var(--amber)}
 
 footer{text-align:center;padding:14px;font-size:12px;opacity:.6}
-.loading { opacity: 0.6; pointer-events: none; }
 
-.config-panel {
- position: fixed;
- top: 80px;
- right: 20px;
- background: var(--panel);
- border-radius: 12px;
- padding: 12px;
- box-shadow: 0 10px 30px rgba(0,0,0,.3);
- border: 1px solid var(--border);
- z-index: 100;
- font-size: 11px;
+/* ===== CONFIG ===== */
+.config-panel{
+ position:fixed;top:80px;right:20px;
+ background:var(--panel);border-radius:12px;
+ padding:12px;border:1px solid var(--border);
+ box-shadow:0 10px 30px rgba(0,0,0,.3);
+ z-index:100;font-size:11px;display:none
 }
-.config-panel input { width: 60px; margin: 0 4px; }
 </style>
 </head>
 
 <body>
+
 <div class="bg-flight" id="bgFlight">
-    <div class="logo">
-        <div class="blue"></div>
-        <div class="white"></div>
-        <div class="dark"></div>
-    </div>
+ <div class="logo"><div class="blue"></div><div class="white"></div><div class="dark"></div></div>
 </div>
 
 <header>
- <h3>SEAPORT(Air division) - IATA Cass payment calendar</h3>
- <button class="theme-btn" onclick="toggleTheme()">🌙 Mode of View 🌞</button>
- <div class="watermark">Dev by Mcode Version 1.7 - Vercel KV + Freeze Config</div>
+ <h3>SEAPORT (Air Division) – IATA CASS Payment Calendar</h3>
+ <button class="theme-btn" onclick="toggleTheme()">🌙 / 🌞</button>
+ <div class="watermark">FULL FEATURE – LocalStorage Edition</div>
 </header>
 
+<!-- DASHBOARD -->
 <div class="dashboard">
- <div class="card"><h4>Current Period Invoice</h4><p id="dInv">₹0</p><div class="wave"><span id="wInv"></span></div></div>
- <div class="card"><h4>Current Period Pending</h4><p id="dPend">₹0</p><div class="wave"><span id="wPend"></span></div></div>
- <div class="card"><h4>Remaining Balance</h4><p id="dRem">₹0</p><div class="wave"><span id="wRem"></span></div></div>
+ <div class="card"><h4>Current Invoice</h4><p id="dInv">₹0</p><div class="wave"><span id="wInv"></span></div></div>
+ <div class="card"><h4>Pending</h4><p id="dPend">₹0</p><div class="wave"><span id="wPend"></span></div></div>
+ <div class="card"><h4>Remaining</h4><p id="dRem">₹0</p><div class="wave"><span id="wRem"></span></div></div>
  <div class="card"><h4>Total Borrowed</h4><p id="dBor">₹0</p><div class="wave"><span id="wBor"></span></div></div>
  <div class="card"><h4>AVL Balance</h4><p id="dAVL">₹0</p><div class="wave"><span id="wAVL"></span></div></div>
 </div>
@@ -167,20 +177,13 @@ footer{text-align:center;padding:14px;font-size:12px;opacity:.6}
 <table>
 <thead>
 <tr>
-<th>Period</th>
-<th>Invoice</th>
-<th>Remittance</th>
-<th>Days Left</th>
-<th>Srilankan</th><th>STATUS</th>
-<th>AirIndia</th><th>STATUS</th>
-<th>Singapore</th><th>STATUS</th>
-<th>Total</th>
-<th>Paid</th>
-<th>AVL</th>
-<th>Borrowed</th>
-<th>Remaining</th>
-<th>Airline Split</th>
-<th>Progress</th>
+<th>Period</th><th>Invoice</th><th>Remittance</th><th>Days</th>
+<th>Srilankan</th><th>Status</th>
+<th>AirIndia</th><th>Status</th>
+<th>Singapore</th><th>Status</th>
+<th>Total</th><th>Paid</th>
+<th>AVL</th><th>Borrowed</th>
+<th>Remaining</th><th>Split</th><th>Progress</th>
 </tr>
 </thead>
 <tbody id="tbody"></tbody>
@@ -188,374 +191,204 @@ footer{text-align:center;padding:14px;font-size:12px;opacity:.6}
 </div>
 </div>
 
-<!-- Config Panel -->
-<div class="config-panel" id="configPanel" style="display:none;">
- <div>Freeze Days: <input id="freezeDays" type="number" value="2" min="0" max="10" onchange="saveConfig()"> 
- <button class="btn" onclick="toggleConfig()">✕</button></div>
- <div>Today: <span id="configToday"></span></div>
+<div class="config-panel" id="configPanel">
+ Freeze Days:
+ <input id="freezeDays" type="number" value="2" min="0" onchange="saveConfig()">
+ <button class="btn" onclick="toggleConfig()">✕</button>
 </div>
 
-<footer>Mcode Version 1.7 ©2025 Vercel KV - Freeze After <span id="freezeDisplay">2</span> Days (Ctrl+C)</footer>
+<footer>Ctrl + C → Freeze Configuration Panel</footer>
 
 <script>
-/* ================= GLOBAL STATE ================= */
-let store = {};
-let periods = [];
-let today = new Date();
-let ci = -1;
-let config = { freezeDays: 2 };
+/* ================= GLOBAL ================= */
+const STORAGE_KEY="SEAPORT_CASS_DATA";
+let store={},today=new Date(),ci=-1;
+let config={freezeDays:2};
 
-/* ================= FALLBACK API (Single File Vercel) ================= */
-async function apiCall(path, options = {}) {
- try {
-  const url = '/api/cass';
-  const res = await fetch(url, {
-   ...options,
-   headers: { 'Content-Type': 'application/json', ...options.headers }
-  });
-  return await res.json();
- } catch (e) {
-  console.error('API Error:', e);
-  return {};
- }
+/* ================= UTILS ================= */
+const inr=x=>"₹"+(x||0).toLocaleString("en-IN");
+function fnLabel(c){
+ const y=c.slice(0,4),m=c.slice(4,6),f=c[6];
+ const mn=["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+ return `${mn[+m]} ${y} – ${f==="1"?"1st":"2nd"} FN`;
 }
 
 /* ================= CONFIG ================= */
-function loadConfig() {
- try {
-  const saved = localStorage.config || '{}';
-  config = { ...config, ...JSON.parse(saved) };
-  const freezeEl = document.getElementById('freezeDays');
-  if (freezeEl) freezeEl.value = config.freezeDays;
-  const displayEl = document.getElementById('freezeDisplay');
-  if (displayEl) displayEl.textContent = config.freezeDays;
- } catch(e) {
-  config = { freezeDays: 2 };
- }
+function loadConfig(){
+ if(localStorage.config) config=JSON.parse(localStorage.config);
+ freezeDays.value=config.freezeDays;
 }
-
-function saveConfig() {
- config.freezeDays = +document.getElementById('freezeDays').value || 2;
- localStorage.config = JSON.stringify(config);
- document.getElementById('freezeDisplay').textContent = config.freezeDays;
+function saveConfig(){
+ config.freezeDays=+freezeDays.value||2;
+ localStorage.config=JSON.stringify(config);
  renderTable();
 }
-
-function toggleConfig() {
- const panel = document.getElementById('configPanel');
- panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+function toggleConfig(){
+ configPanel.style.display=configPanel.style.display?"":"block";
 }
 
 /* ================= THEME ================= */
-if(localStorage.theme==="light") document.body.classList.add("light");
+if(localStorage.theme==="light")document.body.classList.add("light");
 function toggleTheme(){
  document.body.classList.toggle("light");
- localStorage.theme = document.body.classList.contains("light") ? "light" : "dark";
+ localStorage.theme=document.body.classList.contains("light")?"light":"dark";
 }
 
-/* ================= UTILS ================= */
-function inr(x){ return "₹" + (x || 0).toLocaleString("en-IN"); }
-function fnLabel(code){
- const y = code.slice(0,4), m = code.slice(4,6), f = code.slice(6,7);
- const mn = ["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
- return `${mn[+m]} ${y} – ${f==="1" ? "1st" : "2nd"} FN`;
+/* ================= STORAGE ================= */
+function loadData(){
+ store=localStorage.getItem(STORAGE_KEY)?
+ JSON.parse(localStorage.getItem(STORAGE_KEY)):{};
+ renderTable();
+}
+function saveData(){
+ localStorage.setItem(STORAGE_KEY,JSON.stringify(store));
 }
 
-function isFrozen(remittanceDateStr) {
- const remDate = new Date(remittanceDateStr);
- const freezeDate = new Date(remDate);
- freezeDate.setDate(freezeDate.getDate() + config.freezeDays);
- return today > freezeDate;
-}
+/* ================= CORE ================= */
+function renderTable(){
+ tbody.innerHTML="";
+ periodFilter.innerHTML='<option value="ALL">All Periods</option>';
+ ci=periods.findIndex(p=>new Date(p[2])>=today);
 
-function updateDashboard() {
- const dInv = document.getElementById("dInv");
- const dPend = document.getElementById("dPend");
- const dRem = document.getElementById("dRem");
- const dBor = document.getElementById("dBor");
- const dAVL = document.getElementById("dAVL");
- const configToday = document.getElementById("configToday");
+ periods.forEach((p,i)=>{
+  const d=store[p[0]]||{};
+  const sl=+d.sl||0,ai=+d.ai||0,sg=+d.sg||0;
+  const slp=d.slp,aip=d.aip,sgp=d.sgp;
+  const avl=+d.avl||0,bor=+d.bor||0;
+  const inv=sl+ai+sg;
+  const paid=(slp?sl:0)+(aip?ai:0)+(sgp?sg:0);
+  const rem=inv-paid-avl;
+  const days=Math.ceil((new Date(p[2])-today)/86400000);
 
- let dInvTotal = 0, dPendTotal = 0, dRemTotal = 0, dBorTotal = 0, dAVLTotal = 0;
+  const a=inv?sl/inv*360:0;
+  const b=inv?(sl+ai)/inv*360:0;
 
- if (configToday) configToday.textContent = today.toLocaleDateString('en-IN');
+  const tr=document.createElement("tr");
+  tr.dataset.period=p[0];
+  tr.className=i<ci?"freeze":i===ci?"current":i===ci+1?"next":"freeze";
 
- periods.forEach((p, i) => {
-  if (i === ci) {
-   const d = store[p[0]] || {};
-   const sl = +d.sl || 0, ai = +d.ai || 0, sg = +d.sg || 0;
-   const slp = d.slp || 0, aip = d.aip || 0, sgp = d.sgp || 0;
-   const avl = +d.avl || 0;
-   const inv = sl + ai + sg;
-   const paid = (slp ? sl : 0) + (aip ? ai : 0) + (sgp ? sg : 0);
-   const rem = inv - paid - avl;
-   
-   dInvTotal = inv;
-   dPendTotal = inv - paid;
-   dRemTotal = rem;
-   dAVLTotal = avl;
-  }
-  const d = store[p[0]] || {};
-  dBorTotal += +d.bor || 0;
- });
+  tr.innerHTML=`
+  <td>${fnLabel(p[0])}</td>
+  <td>${p[1]}</td>
+  <td>${p[2]}</td>
+  <td class="${days<0?"days-over":days<15?"days-warn":"days-ok"}">${days}</td>
 
- dInv.textContent = inr(dInvTotal);
- dPend.textContent = inr(dPendTotal);
- dRem.textContent = inr(dRemTotal);
- dBor.textContent = inr(dBorTotal);
- dAVL.textContent = inr(dAVLTotal);
+  <td class="${slp?"paidCell":"pendingCell"}"><input value="${sl}" onchange="saveValue('${p[0]}','sl',this.value)"></td>
+  <td><button class="btn" onclick="togglePaid('${p[0]}','slp',1)">Paid</button><button class="btn" onclick="togglePaid('${p[0]}','slp',0)">Pending</button></td>
 
- function w(id, val, max) {
-  const el = document.getElementById(id);
-  if (el) el.style.width = Math.min(100, (val / (max || 1)) * 100) + "%";
- }
- w("wInv", dInvTotal, dInvTotal);
- w("wPend", dPendTotal, dInvTotal);
- w("wRem", dRemTotal, dInvTotal);
- w("wBor", dBorTotal, dBorTotal);
- w("wAVL", dAVLTotal, dInvTotal);
-}
+  <td class="${aip?"paidCell":"pendingCell"}"><input value="${ai}" onchange="saveValue('${p[0]}','ai',this.value)"></td>
+  <td><button class="btn" onclick="togglePaid('${p[0]}','aip',1)">Paid</button><button class="btn" onclick="togglePaid('${p[0]}','aip',0)">Pending</button></td>
 
-function renderTable() {
- const tb = document.getElementById("tbody");
- const periodFilter = document.getElementById("periodFilter");
- 
- tb.innerHTML = "";
- periodFilter.innerHTML = '<option value="ALL">All Periods</option>';
+  <td class="${sgp?"paidCell":"pendingCell"}"><input value="${sg}" onchange="saveValue('${p[0]}','sg',this.value)"></td>
+  <td><button class="btn" onclick="togglePaid('${p[0]}','sgp',1)">Paid</button><button class="btn" onclick="togglePaid('${p[0]}','sgp',0)">Pending</button></td>
 
- ci = periods.findIndex(p => new Date(p[2]) >= today);
+  <td>${inr(inv)}</td>
+  <td>${inr(paid)}</td>
+  <td><input value="${avl}" onchange="saveValue('${p[0]}','avl',this.value)"></td>
+  <td><input value="${bor}" onchange="saveValue('${p[0]}','bor',this.value)"></td>
+  <td>${inr(rem)}</td>
 
- periods.forEach((p, i) => {
-  const d = store[p[0]] || {};
-  const sl = +d.sl || 0, ai = +d.ai || 0, sg = +d.sg || 0;
-  const slp = d.slp || 0, aip = d.aip || 0, sgp = d.sgp || 0;
-  const avl = +d.avl || 0, bor = +d.bor || 0;
-
-  const inv = sl + ai + sg;
-  const paid = (slp ? sl : 0) + (aip ? ai : 0) + (sgp ? sg : 0);
-  const rem = inv - paid - avl;
-
-  const remDate = new Date(p[2]);
-  const days = Math.ceil((remDate - today) / 86400000);
-  const isPastRemittance = days < 0;
-  const isFrozenPeriod = isPastRemittance && isFrozen(p[2]);
-  const dayCls = days < 0 ? "days-over" : days <= 17 ? "days-warn" : "days-ok";
-  const freezeCls = isFrozenPeriod ? "freeze-days" : dayCls;
-
-  const a = (inv ? sl / inv * 360 : 0);
-  const b = (inv ? (sl + ai) / inv * 360 : 0);
-
-  const tr = document.createElement("tr");
-  tr.className = isFrozenPeriod ? "freeze" : 
-                 i < ci ? "freeze" : 
-                 i === ci ? "current" : 
-                 i === ci + 1 ? "next" : "freeze";
-  tr.dataset.period = p[0];
-
-  const disabledAttr = (isFrozenPeriod || i > ci + 1) ? "disabled" : "";
-
-  tr.innerHTML = `
-   <td>${fnLabel(p[0])}</td>
-   <td>${p[1]}</td>
-   <td>${p[2]} ${isFrozenPeriod ? `<span class="freeze-days">(FROZEN)</span>` : ''}</td>
-   <td class="${freezeCls}">${days}</td>
-
-   <td class="${slp ? 'paidCell' : 'pendingCell'}">
-    <input ${disabledAttr} value="${sl}" onchange="saveValue('${p[0]}','sl',this.value)">
-   </td>
-   <td>
-    <button class="btn" ${disabledAttr} onclick="togglePaid('${p[0]}','slp',1)">Paid</button>
-    <button class="btn" ${disabledAttr} onclick="togglePaid('${p[0]}','slp',0)">Pending</button>
-   </td>
-
-   <td class="${aip ? 'paidCell' : 'pendingCell'}">
-    <input ${disabledAttr} value="${ai}" onchange="saveValue('${p[0]}','ai',this.value)">
-   </td>
-   <td>
-    <button class="btn" ${disabledAttr} onclick="togglePaid('${p[0]}','aip',1)">Paid</button>
-    <button class="btn" ${disabledAttr} onclick="togglePaid('${p[0]}','aip',0)">Pending</button>
-   </td>
-
-   <td class="${sgp ? 'paidCell' : 'pendingCell'}">
-    <input ${disabledAttr} value="${sg}" onchange="saveValue('${p[0]}','sg',this.value)">
-   </td>
-   <td>
-    <button class="btn" ${disabledAttr} onclick="togglePaid('${p[0]}','sgp',1)">Paid</button>
-    <button class="btn" ${disabledAttr} onclick="togglePaid('${p[0]}','sgp',0)">Pending</button>
-   </td>
-
-   <td>${inr(inv)}</td>
-   <td>${inr(paid)}</td>
-
-   <td>
-    <input ${disabledAttr} value="${avl}" onchange="saveValue('${p[0]}','avl',this.value)">
-   </td>
-
-   <td>
-    <input ${disabledAttr} value="${bor}" onchange="saveValue('${p[0]}','bor',this.value)">
-   </td>
-
-   <td>${inr(rem)}</td>
-
-   <td>
-    <div class="donut" style="--a:${a}deg;--b:${b}deg"></div>
-   </td>
-
-   <td>
-    <div class="mini">
-     <div style="width:${inv ? paid / inv * 100 : 0}%"></div>
-     <div style="width:${inv ? rem / inv * 100 : 0}%"></div>
-    </div>
-   </td>
+  <td><div class="donut" style="--a:${a}deg;--b:${b}deg"></div></td>
+  <td><div class="mini"><div style="width:${inv?paid/inv*100:0}%"></div><div style="width:${inv?rem/inv*100:0}%"></div></div></td>
   `;
-  tb.appendChild(tr);
+  tbody.appendChild(tr);
 
-  const opt = document.createElement("option");
-  opt.value = p[0];
-  opt.text = fnLabel(p[0]) + (isFrozenPeriod ? ' [FROZEN]' : '');
-  periodFilter.appendChild(opt);
+  const o=document.createElement("option");
+  o.value=p[0];o.text=fnLabel(p[0]);
+  periodFilter.appendChild(o);
  });
-
  updateDashboard();
- applyFilter();
- document.body.classList.remove("loading");
 }
 
-function applyFilter() {
- const v = document.getElementById("periodFilter").value;
- document.querySelectorAll("#tbody tr").forEach(r => {
-  r.style.display = (v === "ALL" || r.dataset.period === v) ? "" : "none";
+/* ================= DASHBOARD ================= */
+function updateDashboard(){
+ let inv=0,pend=0,rem=0,bor=0,avl=0;
+ periods.forEach((p,i)=>{
+  const d=store[p[0]]||{};
+  bor+=+d.bor||0;
+  if(i===ci){
+   const sl=+d.sl||0,ai=+d.ai||0,sg=+d.sg||0;
+   const paid=(d.slp?sl:0)+(d.aip?ai:0)+(d.sgp?sg:0);
+   inv=sl+ai+sg;
+   pend=inv-paid;
+   avl=+d.avl||0;
+   rem=inv-paid-avl;
+  }
  });
+ dInv.textContent=inr(inv);
+ dPend.textContent=inr(pend);
+ dRem.textContent=inr(rem);
+ dBor.textContent=inr(bor);
+ dAVL.textContent=inr(avl);
+ w("wInv",inv,inv);w("wPend",pend,inv);w("wRem",rem,inv);w("wBor",bor,bor);w("wAVL",avl,inv);
+}
+function w(id,v,m){document.getElementById(id).style.width=(m?Math.min(100,v/m*100):0)+"%"}
+
+/* ================= SAVE ================= */
+function saveValue(c,f,v){
+ store[c]=store[c]||{};
+ store[c][f]=+v.replace(/\D/g,"")||0;
+ saveData();renderTable();
+}
+function togglePaid(c,f,v){
+ store[c]=store[c]||{};
+ store[c][f]=v;
+ saveData();renderTable();
+}
+function applyFilter(){
+ const v=periodFilter.value;
+ [...tbody.children].forEach(r=>r.style.display=v==="ALL"||r.dataset.period===v?"":"none");
 }
 
-async function loadData() {
- try {
-  document.body.classList.add("loading");
-  store = await apiCall('/api/cass', { method: 'GET' });
- } catch (e) {
-  console.error("Load error:", e);
-  store = {};
- }
- renderTable();
-}
-
-async function saveData() {
- await apiCall('/api/cass', { 
-  method: 'POST', 
-  body: JSON.stringify(store) 
- });
-}
-
-async function saveValue(code, field, value) {
- store[code] = store[code] || {};
- store[code][field] = +value.replace(/[^0-9]/g, "") || 0;
- await saveData();
- renderTable();
-}
-
-async function togglePaid(code, field, value) {
- store[code] = store[code] || {};
- store[code][field] = value;
- await saveData();
- renderTable();
-}
-
-/* ================= CORRECTED PERIOD DATA ================= */
-periods = [
- ["20251102F","2025-12-09","2025-12-30"],
- ["20251201F","2025-12-25","2026-01-14"],
- ["20251202F","2026-01-08","2026-01-30"],
- ["20260101F","2026-01-25","2026-02-16"],
- ["20260102F","2026-02-07","2026-03-02"],
- ["20260201F","2026-02-24","2026-03-17"],
- ["20260202F","2026-03-07","2026-03-30"],
- ["20260301F","2026-03-25","2026-04-14"],
- ["20260302F","2026-04-09","2026-04-30"],
- ["20260401F","2026-04-25","2026-05-15"],
- ["20260402F","2026-05-07","2026-06-01"],
- ["20260501F","2026-05-27","2026-06-15"],
- ["20260502F","2026-06-09","2026-06-30"],
- ["20260601F","2026-06-25","2026-07-15"],
- ["20260602F","2026-07-09","2026-07-30"],
- ["20260701F","2026-07-25","2026-08-14"],
- ["20260702F","2026-08-07","2026-08-31"],
- ["20260801F","2026-08-26","2026-09-14"],
- ["20260802F","2026-09-09","2026-09-30"],
- ["20260901F","2026-09-24","2026-10-15"],
- ["20260902F","2026-10-08","2026-10-30"],
- ["20261001F","2026-10-25","2026-11-16"],
- ["20261002F","2026-11-07","2026-11-30"],
- ["20261101F","2026-11-25","2026-12-15"],
- ["20261102F","2026-12-09","2026-12-30"],
- ["20261201F","2026-12-24","2027-01-14"],
- ["20261202F","2027-01-07","2027-02-01"]
+/* ================= FULL PERIOD LIST ================= */
+const periods=[
+["20251102F","2025-12-09","2025-12-30"],
+["20251201F","2025-12-25","2026-01-14"],
+["20251202F","2026-01-08","2026-01-30"],
+["20260101F","2026-01-25","2026-02-16"],
+["20260102F","2026-02-07","2026-03-02"],
+["20260201F","2026-02-24","2026-03-17"],
+["20260202F","2026-03-07","2026-03-30"],
+["20260301F","2026-03-25","2026-04-14"],
+["20260302F","2026-04-09","2026-04-30"],
+["20260401F","2026-04-25","2026-05-15"],
+["20260402F","2026-05-07","2026-06-01"],
+["20260501F","2026-05-27","2026-06-15"],
+["20260502F","2026-06-09","2026-06-30"],
+["20260601F","2026-06-25","2026-07-15"],
+["20260602F","2026-07-09","2026-07-30"],
+["20260701F","2026-07-25","2026-08-14"],
+["20260702F","2026-08-07","2026-08-31"],
+["20260801F","2026-08-26","2026-09-14"],
+["20260802F","2026-09-09","2026-09-30"],
+["20260901F","2026-09-24","2026-10-15"],
+["20260902F","2026-10-08","2026-10-30"],
+["20261001F","2026-10-25","2026-11-16"],
+["20261002F","2026-11-07","2026-11-30"],
+["20261101F","2026-11-25","2026-12-15"],
+["20261102F","2026-12-09","2026-12-30"],
+["20261201F","2026-12-24","2027-01-14"],
+["20261202F","2027-01-07","2027-02-01"]
 ];
 
-/* ================= PLANE ANIMATION ================= */
-const plane = document.getElementById("bgFlight");
-let x = -30;
-let y = 30;
-
-function fly() {
- x += 25 + Math.random() * 15;
- y += Math.random() * 8 - 4;
- if (x > 120) { x = -30; y = Math.random() * 60; }
- const bank = Math.random() * 12 - 6;
- plane.style.left = x + "vw";
- plane.style.top = y + "vh";
- plane.style.transform = `rotate(${bank}deg)`;
- setTimeout(fly, 5000);
-}
-fly();
+/* ================= PLANE ================= */
+let x=-30,y=30;
+(function fly(){
+ x+=25;y+=Math.random()*6-3;
+ if(x>120){x=-30;y=Math.random()*60}
+ bgFlight.style.left=x+"vw";
+ bgFlight.style.top=y+"vh";
+ bgFlight.style.transform=`rotate(${Math.random()*12-6}deg)`;
+ setTimeout(fly,5000);
+})();
 
 /* ================= INIT ================= */
 loadConfig();
 loadData();
-document.addEventListener('keydown', (e) => {
- if (e.key === 'c' && e.ctrlKey) toggleConfig();
+document.addEventListener("keydown",e=>{
+ if(e.ctrlKey&&e.key==="c")toggleConfig();
 });
 </script>
 
-<!-- Vercel KV API Route (Embedded for Single File Deploy) -->
-<script>
-/*
-VERCEL API ROUTE: Save this as api/cass.js for Vercel deployment:
-
-import { kv } from '@vercel/kv';
-
-export const runtime = 'edge';
-
-export async function GET() {
-  try {
-    const data = await kv.get('cass-data');
-    return new Response(JSON.stringify(data || {}), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' }
-    });
-  } catch (error) {
-    return new Response(JSON.stringify({}), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
-  }
-}
-
-export async function POST(request) {
-  try {
-    const body = await request.json();
-    await kv.set('cass-data', body);
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: 'Save failed' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
-    });
-  }
-}
-*/
-</script>
 </body>
 </html>
